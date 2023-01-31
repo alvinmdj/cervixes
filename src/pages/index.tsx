@@ -66,12 +66,23 @@ const AuthShowcase: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+        {sessionData && (
+          <span>
+            Logged in as {sessionData.user?.name} ({sessionData.user.role})
+          </span>
+        )}
         {secretMessage && <span> - {secretMessage}</span>}
       </p>
       <button
         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
+        onClick={
+          sessionData
+            ? () => void signOut()
+            : () =>
+                void signIn("google", {
+                  callbackUrl: window.location.href, // current url
+                })
+        }
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
