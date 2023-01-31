@@ -16,15 +16,17 @@ import { prisma } from "./db";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
 declare module "next-auth" {
+  type UserRole = "USER" | "ADMIN" | "OWNER";
+
   interface Session extends DefaultSession {
     user: {
       id: string;
-      role: "USER" | "ADMIN" | "OWNER";
+      role: UserRole;
     } & DefaultSession["user"];
   }
 
   interface User {
-    role: "USER" | "ADMIN" | "OWNER";
+    role: UserRole;
   }
 }
 
