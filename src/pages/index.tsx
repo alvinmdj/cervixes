@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
 
 import Metatags from "../components/Metatags";
 import { api } from "../utils/api";
@@ -11,11 +10,6 @@ const Home: NextPage = () => {
   return (
     <>
       <Metatags />
-      <div>
-        <Link href="/dashboard" className="btn">
-          Dashboard
-        </Link>
-      </div>
       <div className="flex flex-col items-center gap-2">
         <p className="text-2xl text-black">
           {hello.data ? hello.data.greeting : "Loading tRPC query..."}
