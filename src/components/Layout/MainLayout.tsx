@@ -6,8 +6,6 @@ import Sidebar from "./Sidebar";
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession();
 
-  console.log(session?.user);
-
   // Unauthenticated | User
   if (!session || session.user.role === "USER") {
     return (
