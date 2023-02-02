@@ -14,5 +14,8 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains: ["lh3.googleusercontent.com"], // allow user's profile image to be loaded from google account
+  },
 };
 export default config;
