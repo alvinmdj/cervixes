@@ -10,7 +10,21 @@ const Home: NextPage = () => {
   return (
     <>
       <Metatags />
-      <div className="flex flex-col items-center gap-2">
+      <div className="hero min-h-[calc(100vh-4rem)] bg-base-200">
+        <div className="hero-content text-center">
+          <div className="max-w-md">
+            <h1 className="text-5xl font-bold">Hello there</h1>
+            <p className="py-6">
+              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
+              et a id nisi.
+            </p>
+            <button className="btn-primary btn">Get Started</button>
+          </div>
+        </div>
+      </div>
+      <div className="m-2 flex flex-col items-center gap-2">
+        <div className="h-8 w-[75px] animate-pulse rounded-md bg-gray-200" />
         <p className="text-2xl text-black">
           {hello.data ? hello.data.greeting : "Loading tRPC query..."}
         </p>

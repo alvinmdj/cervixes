@@ -43,7 +43,7 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
       />
       <div className="drawer-content flex flex-col">
         <Navbar drawerId={drawerId} />
-        <div className="p-2">{content}</div>
+        <div>{content}</div>
       </div>
       <div className="drawer-side shadow">
         <label htmlFor={drawerId} className="drawer-overlay"></label>

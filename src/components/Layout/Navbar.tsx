@@ -29,7 +29,7 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="dropdown dropdown-end">
+        <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="w-10 rounded-full border">
               <Image
