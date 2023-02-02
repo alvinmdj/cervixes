@@ -18,10 +18,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const Symptoms = () => {
+const Factors = () => {
   return (
     <>
-      <button className="btn mb-2">Add Symptom</button>
+      <button className="btn mb-2">Add Factor</button>
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -37,11 +37,12 @@ const Symptoms = () => {
             <tr className="hover">
               <th>1</th>
               <td>Cy Ganderton</td>
-              <td>9</td>
+              <td>2</td>
               <td>
                 <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Kurang tidur</div>
-                  <div className="badge badge-lg">Banyak makan</div>
+                  <div className="badge badge-lg">Mual</div>
+                  <div className="badge badge-lg">Merasa malas</div>
+                  <div className="badge badge-lg">Jantung berdenyut</div>
                 </div>
               </td>
               <td>
@@ -56,11 +57,12 @@ const Symptoms = () => {
             <tr className="hover">
               <th>2</th>
               <td>Hart Hagerty</td>
-              <td>2</td>
+              <td>3</td>
               <td>
                 <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Kurang tidur</div>
-                  <div className="badge badge-lg">Banyak makan</div>
+                  <div className="badge badge-lg">Mual</div>
+                  <div className="badge badge-lg">Merasa malas</div>
+                  <div className="badge badge-lg">Jantung berdenyut</div>
                 </div>
               </td>
               <td>
@@ -75,11 +77,12 @@ const Symptoms = () => {
             <tr className="hover">
               <th>3</th>
               <td>Brice Swyre</td>
-              <td>5</td>
+              <td>8</td>
               <td>
                 <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Kurang tidur</div>
-                  <div className="badge badge-lg">Banyak makan</div>
+                  <div className="badge badge-lg">Mual</div>
+                  <div className="badge badge-lg">Merasa malas</div>
+                  <div className="badge badge-lg">Jantung berdenyut</div>
                 </div>
               </td>
               <td>
@@ -98,4 +101,4 @@ const Symptoms = () => {
   );
 };
 
-export default Symptoms;
+export default Factors;
