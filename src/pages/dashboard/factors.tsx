@@ -1,26 +1,8 @@
-import type { GetServerSideProps } from "next";
-import { getServerAuthSession } from "../../server/auth";
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getServerAuthSession(context);
-
-  if (!session || session.user.role === "USER") {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
+import AdminCheck from "../../components/AdminCheck";
 
 const Factors = () => {
   return (
-    <>
+    <AdminCheck>
       <button className="btn mb-2">Add Factor</button>
       <div className="overflow-x-auto">
         <table className="table w-full">
@@ -97,7 +79,7 @@ const Factors = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </AdminCheck>
   );
 };
 
