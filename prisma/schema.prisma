@@ -20,12 +20,6 @@ enum Role {
     OWNER
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -70,4 +64,22 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Disease {
+    id        String    @id @default(cuid())
+    name      String    @unique
+    code      String    @unique
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    symptoms  Symptom[]
+}
+
+model Symptom {
+    id        String    @id @default(cuid())
+    name      String    @unique
+    weight    Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    diseases  Disease[]
 }
