@@ -10,11 +10,7 @@ const AdminCheck = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (
-      status === "unauthenticated" ||
-      !session ||
-      session.user.role === "USER"
-    ) {
+    if (status === "unauthenticated" || session?.user.role === "USER") {
       setTimeout(() => {
         void router.push("/");
       }, 3000);
@@ -24,19 +20,15 @@ const AdminCheck = ({ children }: { children: ReactNode }) => {
   if (status === "loading") {
     return (
       <div className="flex min-h-[50vh] flex-col items-center justify-center gap-2">
-        <p className="text-6xl font-bold">Loading...</p>
+        <p className="text-center text-5xl font-bold">Loading...</p>
       </div>
     );
   }
 
-  if (
-    status === "unauthenticated" ||
-    !session ||
-    session.user.role === "USER"
-  ) {
+  if (status === "unauthenticated" || session?.user.role === "USER") {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-2">
-        <p className="text-6xl font-bold">Access denied</p>
+      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-2 text-center">
+        <p className="text-5xl font-bold">Access denied</p>
         <p>
           Redirecting to{" "}
           <Link href="/" className="link">
