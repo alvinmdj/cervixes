@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 
+import { toast } from "react-hot-toast";
 import Metatags from "../components/Metatags";
 import { api } from "../utils/api";
 
@@ -58,11 +59,16 @@ const AuthShowcase: React.FC = () => {
         className="rounded-full bg-slate-700/10 px-10 py-3 font-semibold text-slate-700 no-underline transition hover:bg-slate-700/20"
         onClick={
           sessionData
-            ? () => void signOut()
-            : () =>
+            ? () => {
+                toast.loading("Signing out...");
+                void signOut();
+              }
+            : () => {
+                toast.loading("Redirecting...");
                 void signIn("google", {
                   callbackUrl: window.location.href, // current url
-                })
+                });
+              }
         }
       >
         {sessionData ? "Sign out" : "Sign in"}
