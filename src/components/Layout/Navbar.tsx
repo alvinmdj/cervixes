@@ -7,14 +7,14 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
   const { data: session, status } = useSession();
 
   const handleSignIn = () => {
-    toast.loading("Redirecting...");
+    toast.loading("Redirecting...", { duration: 3000 });
     void signIn("google", {
       callbackUrl: window.location.href, // current url
     });
   };
 
   const handleSignOut = () => {
-    toast.loading("Signing out...");
+    toast.loading("Signing out...", { duration: 3000 });
     void signOut();
   };
 
@@ -65,14 +65,32 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
                 />
               </div>
             </label>
-            <ul
+            <div
+              tabIndex={0}
+              className="card-compact dropdown-content card w-64 bg-base-100 shadow"
+            >
+              <div className="card-body">
+                <h3 className="text-center font-bold">
+                  Welcome back, {session.user.name?.split(" ")[0]}!
+                </h3>
+                <div className="flex flex-col gap-2">
+                  <span
+                    className="cursor-pointer rounded-lg p-2 transition hover:bg-base-200 active:bg-base-300"
+                    onClick={handleSignOut}
+                  >
+                    Sign out
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* <ul
               tabIndex={0}
               className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
             >
               <li>
                 <span onClick={handleSignOut}>Sign out</span>
               </li>
-            </ul>
+            </ul> */}
           </div>
         )}
       </div>
