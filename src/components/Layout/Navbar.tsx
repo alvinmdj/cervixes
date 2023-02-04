@@ -1,22 +1,28 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 const Navbar = ({ drawerId }: { drawerId?: string }) => {
   const { data: session, status } = useSession();
 
   const handleSignIn = () => {
-    toast.loading("Redirecting...", { duration: 3000 });
+    toast.loading("Redirecting...");
     void signIn("google", {
       callbackUrl: window.location.href, // current url
     });
   };
 
   const handleSignOut = () => {
-    toast.loading("Signing out...", { duration: 3000 });
+    toast.loading("Signing out...");
     void signOut();
   };
+
+  // remove pending toasts if any
+  useEffect(() => {
+    toast.dismiss();
+  }, []);
 
   return (
     <div className="navbar bg-base-100 shadow">
