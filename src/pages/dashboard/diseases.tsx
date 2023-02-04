@@ -1,12 +1,31 @@
-import { useId } from "react";
+import { useId, useState } from "react";
+import { toast } from "react-hot-toast";
 import AdminCheck from "../../components/AdminCheck";
 import ModalAddDisease from "../../components/Modal/ModalAddDisease";
+import ModalDeleteConfirmation from "../../components/Modal/ModalDeleteConfirmation";
 import { api } from "../../utils/api";
 
 const Diseases = () => {
   const addModalId = useId();
+  const deleteConfirmationModalId = useId();
+
+  const [selectedDiseaseId, setSelectedDiseaseId] = useState("");
+
+  const utils = api.useContext();
 
   const { data, isLoading } = api.diseases.list.useQuery();
+
+  const { mutate } = api.diseases.delete.useMutation({
+    onError: () => {
+      toast.error("An error occured, try again later...");
+    },
+    onSuccess: () => {
+      toast.success("Deleted!");
+
+      // invalidate disease list cache
+      void utils.diseases.list.invalidate();
+    },
+  });
 
   return (
     <AdminCheck>
@@ -14,6 +33,11 @@ const Diseases = () => {
         Add Disease
       </label>
       <ModalAddDisease modalId={addModalId} />
+      <ModalDeleteConfirmation
+        modalId={deleteConfirmationModalId}
+        title="Confirm Delete Disease"
+        onClick={() => mutate({ diseaseId: selectedDiseaseId })}
+      />
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -30,6 +54,13 @@ const Diseases = () => {
               <tr>
                 <td colSpan={6} className="text-center">
                   Loading data...
+                </td>
+              </tr>
+            )}
+            {data?.length === 0 && (
+              <tr>
+                <td colSpan={6} className="text-center">
+                  No entries found...
                 </td>
               </tr>
             )}
@@ -54,9 +85,9 @@ const Diseases = () => {
                   <td>
                     <div className="flex flex-wrap gap-2">
                       {disease.factors.length ? (
-                        disease.factors.map((symptom) => (
-                          <div key={symptom.id} className="badge badge-lg">
-                            {symptom.name}
+                        disease.factors.map((factor) => (
+                          <div key={factor.id} className="badge badge-lg">
+                            {factor.name}
                           </div>
                         ))
                       ) : (
@@ -69,88 +100,17 @@ const Diseases = () => {
                       <button className="btn-info btn-sm btn flex-1">
                         Edit
                       </button>
-                      <button className="btn-error btn-sm btn flex-1">
+                      <label
+                        htmlFor={deleteConfirmationModalId}
+                        className="btn-error btn-sm btn flex-1"
+                        onClick={() => setSelectedDiseaseId(disease.id)}
+                      >
                         Remove
-                      </button>
+                      </label>
                     </div>
                   </td>
                 </tr>
               ))}
-            <tr className="hover">
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Mual</div>
-                  <div className="badge badge-lg">Merasa malas</div>
-                  <div className="badge badge-lg">Jantung berdenyut</div>
-                </div>
-              </td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Kurang tidur</div>
-                  <div className="badge badge-lg">Banyak makan</div>
-                </div>
-              </td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <button className="btn-info btn-sm btn flex-1">Edit</button>
-                  <button className="btn-error btn-sm btn flex-1">
-                    Remove
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="hover">
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Mual</div>
-                  <div className="badge badge-lg">Merasa malas</div>
-                  <div className="badge badge-lg">Jantung berdenyut</div>
-                </div>
-              </td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Kurang tidur</div>
-                  <div className="badge badge-lg">Banyak makan</div>
-                </div>
-              </td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <button className="btn-info btn-sm btn flex-1">Edit</button>
-                  <button className="btn-error btn-sm btn flex-1">
-                    Remove
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="hover">
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Mual</div>
-                  <div className="badge badge-lg">Merasa malas</div>
-                  <div className="badge badge-lg">Jantung berdenyut</div>
-                </div>
-              </td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <div className="badge badge-lg">Kurang tidur</div>
-                  <div className="badge badge-lg">Banyak makan</div>
-                </div>
-              </td>
-              <td>
-                <div className="flex flex-wrap gap-2">
-                  <button className="btn-info btn-sm btn flex-1">Edit</button>
-                  <button className="btn-error btn-sm btn flex-1">
-                    Remove
-                  </button>
-                </div>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>

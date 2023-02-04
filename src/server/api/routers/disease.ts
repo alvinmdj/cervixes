@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { addDiseaseSchema } from "../../../components/Modal/ModalAddDisease";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -23,4 +24,19 @@ export const diseaseRouter = createTRPCRouter({
 
     return diseases;
   }),
+  delete: protectedProcedure
+    .input(
+      z.object({
+        diseaseId: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const { diseaseId } = input;
+
+      return ctx.prisma.disease.delete({
+        where: {
+          id: diseaseId,
+        },
+      });
+    }),
 });
