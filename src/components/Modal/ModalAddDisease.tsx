@@ -45,7 +45,6 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
       if (error) toast.error(error?.message);
     },
   });
-  console.log(error?.message);
 
   const onSubmit = (values: AddDiseaseSchema) => {
     mutate(values);
