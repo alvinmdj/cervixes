@@ -1,9 +1,12 @@
 import { useId } from "react";
 import AdminCheck from "../../components/AdminCheck";
 import ModalAddDisease from "../../components/Modal/ModalAddDisease";
+import { api } from "../../utils/api";
 
 const Diseases = () => {
   const addModalId = useId();
+
+  const { data, isLoading } = api.diseases.list.useQuery();
 
   return (
     <AdminCheck>
@@ -17,17 +20,65 @@ const Diseases = () => {
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Code</th>
               <th>Symptoms</th>
               <th>Factors</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
+            {isLoading && (
+              <tr>
+                <td colSpan={6} className="text-center">
+                  Loading data...
+                </td>
+              </tr>
+            )}
+            {data &&
+              data.map((disease, index) => (
+                <tr key={disease.id}>
+                  <th>{index + 1}</th>
+                  <td>{disease.name}</td>
+                  <td>
+                    <div className="flex flex-wrap gap-2">
+                      {disease.symptoms.length ? (
+                        disease.symptoms.map((symptom) => (
+                          <div key={symptom.id} className="badge badge-lg">
+                            {symptom.name}
+                          </div>
+                        ))
+                      ) : (
+                        <span>No associated symptoms.</span>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex flex-wrap gap-2">
+                      {disease.factors.length ? (
+                        disease.factors.map((symptom) => (
+                          <div key={symptom.id} className="badge badge-lg">
+                            {symptom.name}
+                          </div>
+                        ))
+                      ) : (
+                        <span>No associated factors.</span>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex flex-wrap gap-2">
+                      <button className="btn-info btn-sm btn flex-1">
+                        Edit
+                      </button>
+                      <button className="btn-error btn-sm btn flex-1">
+                        Remove
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             <tr className="hover">
               <th>1</th>
               <td>Cy Ganderton</td>
-              <td>D01</td>
               <td>
                 <div className="flex flex-wrap gap-2">
                   <div className="badge badge-lg">Mual</div>
@@ -53,7 +104,6 @@ const Diseases = () => {
             <tr className="hover">
               <th>2</th>
               <td>Hart Hagerty</td>
-              <td>D02</td>
               <td>
                 <div className="flex flex-wrap gap-2">
                   <div className="badge badge-lg">Mual</div>
@@ -79,7 +129,6 @@ const Diseases = () => {
             <tr className="hover">
               <th>3</th>
               <td>Brice Swyre</td>
-              <td>D03</td>
               <td>
                 <div className="flex flex-wrap gap-2">
                   <div className="badge badge-lg">Mual</div>

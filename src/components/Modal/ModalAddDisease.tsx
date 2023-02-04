@@ -1,6 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { z } from "zod";
+import { api } from "../../utils/api";
 
 // validation schema is also used by server
 export const addDiseaseSchema = z.object({
@@ -10,6 +13,8 @@ export const addDiseaseSchema = z.object({
 type AddDiseaseSchema = z.infer<typeof addDiseaseSchema>;
 
 const ModalAddDisease = ({ modalId }: { modalId: string }) => {
+  const toggleRef = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
@@ -20,13 +25,35 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
     resolver: zodResolver(addDiseaseSchema),
   });
 
+  const utils = api.useContext();
+
+  const { mutate } = api.diseases.create.useMutation({
+    onSuccess: () => {
+      toast.success("Create success!");
+
+      // close modal
+      if (toggleRef.current) toggleRef.current.checked = false;
+
+      // reset input
+      reset();
+
+      // invalidate disease list cache
+      void utils.diseases.list.invalidate();
+    },
+  });
+
   const onSubmit = (values: AddDiseaseSchema) => {
-    console.log(values);
+    mutate(values);
   };
 
   return (
     <>
-      <input type="checkbox" id={modalId} className="modal-toggle" />
+      <input
+        type="checkbox"
+        id={modalId}
+        ref={toggleRef}
+        className="modal-toggle"
+      />
       <div className="modal">
         <div className="modal-box">
           <h3 className="text-center text-lg font-bold">Add new disease</h3>
