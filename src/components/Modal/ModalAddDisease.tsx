@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -27,7 +28,7 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
 
   const utils = api.useContext();
 
-  const { mutate } = api.diseases.create.useMutation({
+  const { mutate, error } = api.diseases.create.useMutation({
     onSuccess: () => {
       toast.success("Create success!");
 
@@ -40,7 +41,11 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
       // invalidate disease list cache
       void utils.diseases.list.invalidate();
     },
+    onError: () => {
+      if (error) toast.error(error?.message);
+    },
   });
+  console.log(error?.message);
 
   const onSubmit = (values: AddDiseaseSchema) => {
     mutate(values);
@@ -65,11 +70,16 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
               <input
                 type="text"
                 placeholder="Disease name"
-                className="input-bordered input w-full"
+                className={clsx(
+                  "input-bordered input w-full",
+                  errors.name && "input-error"
+                )}
                 {...register("name")}
               />
               {errors.name?.message && (
-                <p className="text-sm text-red-500">{errors.name?.message}</p>
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.name?.message}
+                </p>
               )}
             </div>
             <div className="modal-action">
