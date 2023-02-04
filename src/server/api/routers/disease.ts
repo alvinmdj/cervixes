@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { addDiseaseSchema } from "../../../components/Modal/ModalAddDisease";
+import { editDiseaseSchema } from "../../../components/Modal/ModalEditDisease";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const diseaseRouter = createTRPCRouter({
@@ -34,6 +35,27 @@ export const diseaseRouter = createTRPCRouter({
 
     return diseases;
   }),
+  update: protectedProcedure
+    .input(editDiseaseSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { id, name } = input;
+
+        const updatedDisease = await ctx.prisma.disease.update({
+          data: { name },
+          where: { id },
+        });
+
+        return updatedDisease;
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            throw (error.message = "This name is already exists");
+          }
+        }
+        throw error;
+      }
+    }),
   delete: protectedProcedure
     .input(
       z.object({

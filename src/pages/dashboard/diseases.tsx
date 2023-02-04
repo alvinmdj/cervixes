@@ -3,13 +3,17 @@ import { toast } from "react-hot-toast";
 import AdminCheck from "../../components/AdminCheck";
 import ModalAddDisease from "../../components/Modal/ModalAddDisease";
 import ModalDeleteConfirmation from "../../components/Modal/ModalDeleteConfirmation";
+import ModalEditDisease from "../../components/Modal/ModalEditDisease";
+import type { RouterOutputs } from "../../utils/api";
 import { api } from "../../utils/api";
 
 const Diseases = () => {
   const addModalId = useId();
+  const editModalId = useId();
   const deleteConfirmationModalId = useId();
 
-  const [selectedDiseaseId, setSelectedDiseaseId] = useState("");
+  const [selectedDisease, setSelectedDisease] =
+    useState<RouterOutputs["diseases"]["list"][number]>();
 
   const utils = api.useContext();
 
@@ -33,10 +37,13 @@ const Diseases = () => {
         Add Disease
       </label>
       <ModalAddDisease modalId={addModalId} />
+      <ModalEditDisease modalId={editModalId} disease={selectedDisease} />
       <ModalDeleteConfirmation
         modalId={deleteConfirmationModalId}
         title="Confirm Delete Disease"
-        onClick={() => mutate({ diseaseId: selectedDiseaseId })}
+        onClick={() => {
+          if (selectedDisease) mutate({ diseaseId: selectedDisease.id });
+        }}
       />
       <div className="overflow-x-auto">
         <table className="table w-full">
@@ -97,13 +104,17 @@ const Diseases = () => {
                   </td>
                   <td>
                     <div className="flex flex-wrap gap-2">
-                      <button className="btn-info btn-sm btn flex-1">
+                      <label
+                        htmlFor={editModalId}
+                        className="btn-info btn-sm btn flex-1"
+                        onClick={() => setSelectedDisease(disease)}
+                      >
                         Edit
-                      </button>
+                      </label>
                       <label
                         htmlFor={deleteConfirmationModalId}
                         className="btn-error btn-sm btn flex-1"
-                        onClick={() => setSelectedDiseaseId(disease.id)}
+                        onClick={() => setSelectedDisease(disease)}
                       >
                         Remove
                       </label>

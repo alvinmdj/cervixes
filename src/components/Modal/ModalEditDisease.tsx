@@ -1,36 +1,44 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
+import type { RouterOutputs } from "../../utils/api";
 import { api } from "../../utils/api";
 
 // validation schema is also used by server
-export const addDiseaseSchema = z.object({
+export const editDiseaseSchema = z.object({
+  id: z.string().min(1),
   name: z.string().min(1, { message: "Name field is required" }),
 });
 
-type AddDiseaseSchema = z.infer<typeof addDiseaseSchema>;
+type EditDiseaseSchema = z.infer<typeof editDiseaseSchema>;
 
-const ModalAddDisease = ({ modalId }: { modalId: string }) => {
+type Props = {
+  modalId: string;
+  disease: RouterOutputs["diseases"]["list"][number] | undefined;
+};
+
+const ModalEditDisease = ({ modalId, disease }: Props) => {
   const toggleRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
-  } = useForm<AddDiseaseSchema>({
+  } = useForm<EditDiseaseSchema>({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-    resolver: zodResolver(addDiseaseSchema),
+    resolver: zodResolver(editDiseaseSchema),
   });
 
   const utils = api.useContext();
 
-  const { mutate } = api.diseases.create.useMutation({
+  const { mutate } = api.diseases.update.useMutation({
     onSuccess: () => {
-      toast.success("Create success!");
+      toast.success("Update success!");
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
@@ -44,9 +52,16 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
     onError: ({ message }) => toast.error(message),
   });
 
-  const onSubmit = (values: AddDiseaseSchema) => {
+  const onSubmit = (values: EditDiseaseSchema) => {
     mutate(values);
   };
+
+  useEffect(() => {
+    if (disease) {
+      setValue("id", disease.id);
+      setValue("name", disease.name);
+    }
+  }, [disease, setValue]);
 
   return (
     <>
@@ -58,9 +73,10 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
       />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-center text-lg font-bold">Add new disease</h3>
+          <h3 className="text-center text-lg font-bold">Edit disease</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full">
+              <input type="hidden" {...register("id")} />
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
@@ -98,4 +114,4 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
   );
 };
 
-export default ModalAddDisease;
+export default ModalEditDisease;
