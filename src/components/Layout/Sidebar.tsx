@@ -41,11 +41,11 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
         className="drawer-toggle"
         ref={toggleRef}
       />
-      <div className="drawer-content flex flex-col">
+      <div className="drawer-content flex flex-col lg:relative lg:!z-20">
         <Navbar drawerId={drawerId} />
         <div>{content}</div>
       </div>
-      <div className="drawer-side shadow">
+      <div className="drawer-side shadow lg:relative lg:!z-10">
         <label htmlFor={drawerId} className="drawer-overlay"></label>
         <ul className="menu w-80 gap-2 bg-base-100 p-4">
           <Link

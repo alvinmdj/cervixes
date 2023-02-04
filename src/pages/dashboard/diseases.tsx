@@ -1,9 +1,16 @@
+import { useId } from "react";
 import AdminCheck from "../../components/AdminCheck";
+import ModalAddDisease from "../../components/Modal/ModalAddDisease";
 
 const Diseases = () => {
+  const addModalId = useId();
+
   return (
     <AdminCheck>
-      <button className="btn mb-2">Add Disease</button>
+      <label htmlFor={addModalId} className="btn mb-2">
+        Add Disease
+      </label>
+      <ModalAddDisease modalId={addModalId} />
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
