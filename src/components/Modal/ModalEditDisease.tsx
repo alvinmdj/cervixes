@@ -26,7 +26,6 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     formState: { errors },
   } = useForm<EditDiseaseSchema>({
@@ -42,9 +41,6 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
-
-      // reset input
-      reset();
 
       // invalidate disease list cache
       void utils.diseases.list.invalidate();
@@ -97,7 +93,6 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
             </div>
             <div className="modal-action">
               <label
-                onClick={() => reset()}
                 htmlFor={modalId}
                 className="btn-ghost btn bg-base-200"
               >
