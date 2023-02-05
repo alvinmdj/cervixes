@@ -1,28 +1,22 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 const Navbar = ({ drawerId }: { drawerId?: string }) => {
   const { data: session, status } = useSession();
 
   const handleSignIn = () => {
-    toast.loading("Redirecting...");
+    toast.loading("Redirecting...", { duration: 3000 });
     void signIn("google", {
       callbackUrl: window.location.href, // current url
     });
   };
 
   const handleSignOut = () => {
-    toast.loading("Signing out...");
+    toast.loading("Signing out...", { duration: 3000 });
     void signOut();
   };
-
-  // remove pending toasts if any
-  useEffect(() => {
-    toast.dismiss();
-  }, []);
 
   return (
     <div className="navbar bg-base-100 shadow">
@@ -73,7 +67,7 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
             </label>
             <div
               tabIndex={0}
-              className="card-compact dropdown-content card w-64 bg-base-100 shadow"
+              className="card dropdown-content card-compact w-64 bg-base-100 shadow"
             >
               <div className="card-body">
                 <h3 className="text-center font-bold">
