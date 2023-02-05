@@ -3,8 +3,8 @@ import clsx from "clsx";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { api } from "utils/api";
 import { z } from "zod";
-import { api } from "../../utils/api";
 
 // validation schema is also used by server
 export const addDiseaseSchema = z.object({

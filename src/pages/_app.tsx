@@ -4,10 +4,10 @@ import { type AppType } from "next/app";
 import NextNProgress from "nextjs-progressbar";
 import { Toaster } from "react-hot-toast";
 
-import { api } from "../utils/api";
+import { api } from "utils/api";
 
-import MainLayout from "../components/Layout/MainLayout";
-import "../styles/globals.css";
+import MainLayout from "components/Layout/MainLayout";
+import "styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

@@ -1,11 +1,11 @@
+import AdminCheck from "components/AdminCheck";
+import ModalAddDisease from "components/Modal/ModalAddDisease";
+import ModalDeleteConfirmation from "components/Modal/ModalDeleteConfirmation";
+import ModalEditDisease from "components/Modal/ModalEditDisease";
 import { useId, useState } from "react";
 import { toast } from "react-hot-toast";
-import AdminCheck from "../../components/AdminCheck";
-import ModalAddDisease from "../../components/Modal/ModalAddDisease";
-import ModalDeleteConfirmation from "../../components/Modal/ModalDeleteConfirmation";
-import ModalEditDisease from "../../components/Modal/ModalEditDisease";
-import type { RouterOutputs } from "../../utils/api";
-import { api } from "../../utils/api";
+import type { RouterOutputs } from "utils/api";
+import { api } from "utils/api";
 
 const Diseases = () => {
   const addModalId = useId();

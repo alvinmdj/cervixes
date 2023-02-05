@@ -1,4 +1,4 @@
-import AdminCheck from "../../components/AdminCheck";
+import AdminCheck from "components/AdminCheck";
 
 const Symptoms = () => {
   return (

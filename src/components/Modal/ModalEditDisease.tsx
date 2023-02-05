@@ -3,9 +3,9 @@ import clsx from "clsx";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import type { RouterOutputs } from "utils/api";
+import { api } from "utils/api";
 import { z } from "zod";
-import type { RouterOutputs } from "../../utils/api";
-import { api } from "../../utils/api";
 
 // validation schema is also used by server
 export const editDiseaseSchema = z.object({
@@ -92,10 +92,7 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
               )}
             </div>
             <div className="modal-action">
-              <label
-                htmlFor={modalId}
-                className="btn-ghost btn bg-base-200"
-              >
+              <label htmlFor={modalId} className="btn-ghost btn bg-base-200">
                 Cancel
               </label>
               <button type="submit" className="btn">
