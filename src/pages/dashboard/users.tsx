@@ -65,7 +65,7 @@ const Factors = () => {
                 <tr key={user.id}>
                   <th>{index + 1}</th>
                   <td>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <Image
                         src={user.image || "/profile.jpg"}
                         width={40}
