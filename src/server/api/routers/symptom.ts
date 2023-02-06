@@ -17,7 +17,7 @@ export const symptomRouter = createTRPCRouter({
             weight,
             diseases: {
               connect: diseases.map((id) => ({
-                id
+                id,
               })),
             },
           },
@@ -46,10 +46,18 @@ export const symptomRouter = createTRPCRouter({
     .input(editSymptomSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        const { id, name, weight } = input;
+        const { id, name, weight, diseases } = input;
 
         const updatedSymptom = await ctx.prisma.symptom.update({
-          data: { name, weight },
+          data: {
+            name,
+            weight,
+            diseases: {
+              connect: diseases.map((id) => ({
+                id,
+              })),
+            },
+          },
           where: { id },
         });
 

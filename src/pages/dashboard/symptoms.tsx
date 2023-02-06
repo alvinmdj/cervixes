@@ -2,15 +2,24 @@ import AdminCheck from "components/AdminCheck";
 import ModalAddSymptom from "components/Modal/ModalAddSymptom";
 import ModalDeleteConfirmation from "components/Modal/ModalDeleteConfirmation";
 import ModalEditSymptom from "components/Modal/ModalEditSymptom";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { toast } from "react-hot-toast";
 import type { RouterOutputs } from "utils/api";
 import { api } from "utils/api";
+
+export type DiseasesOption = {
+  label: string;
+  value: string;
+};
 
 const Symptoms = () => {
   const addModalId = useId();
   const editModalId = useId();
   const deleteConfirmationModalId = useId();
+
+  const [diseasesOption, setDiseasesOption] = useState<
+    DiseasesOption[] | undefined
+  >();
 
   const [selectedSymptom, setSelectedSymptom] =
     useState<RouterOutputs["symptoms"]["list"][number]>();
@@ -31,13 +40,34 @@ const Symptoms = () => {
     },
   });
 
+  const { data: diseasesData } = api.diseases.list.useQuery();
+
+  useEffect(() => {
+    if (diseasesData) {
+      if (diseasesData.length === 0) {
+        toast.error("Please add disease(s) before adding symptom(s)");
+        return;
+      }
+      setDiseasesOption(
+        diseasesData.map((disease) => ({
+          value: disease.id,
+          label: disease.name,
+        }))
+      );
+    }
+  }, [diseasesData]);
+
   return (
     <AdminCheck>
       <label htmlFor={addModalId} className="btn mb-2">
         Add Symptom
       </label>
-      <ModalAddSymptom modalId={addModalId} />
-      <ModalEditSymptom modalId={editModalId} symptom={selectedSymptom} />
+      <ModalAddSymptom modalId={addModalId} diseasesOption={diseasesOption} />
+      <ModalEditSymptom
+        modalId={editModalId}
+        symptom={selectedSymptom}
+        diseasesOption={diseasesOption}
+      />
       <ModalDeleteConfirmation
         modalId={deleteConfirmationModalId}
         title="Confirm Delete Symptom"

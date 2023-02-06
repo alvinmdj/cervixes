@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import type { DiseasesOption } from "pages/dashboard/symptoms";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Select from "react-select";
@@ -16,17 +17,13 @@ export const addSymptomSchema = z.object({
 
 type AddSymptomSchema = z.infer<typeof addSymptomSchema>;
 
-type DiseasesOption = {
-  label: string;
-  value: string;
+type Props = {
+  modalId: string;
+  diseasesOption: DiseasesOption[] | undefined;
 };
 
-const ModalAddSymptom = ({ modalId }: { modalId: string }) => {
+const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
   const toggleRef = useRef<HTMLInputElement>(null);
-
-  const [diseasesOption, setDiseasesOption] = useState<
-    DiseasesOption[] | undefined
-  >();
 
   const {
     control,
@@ -47,23 +44,6 @@ const ModalAddSymptom = ({ modalId }: { modalId: string }) => {
   const weightValue = watch("weight");
 
   const utils = api.useContext();
-
-  const { data } = api.diseases.list.useQuery();
-
-  useEffect(() => {
-    if (data) {
-      if (data.length === 0) {
-        toast.error("Please add disease(s) before adding symptom(s)");
-        return;
-      }
-      setDiseasesOption(
-        data.map((disease) => ({
-          value: disease.id,
-          label: disease.name,
-        }))
-      );
-    }
-  }, [data]);
 
   const { mutate } = api.symptoms.create.useMutation({
     onSuccess: () => {
