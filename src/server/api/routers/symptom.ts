@@ -48,11 +48,26 @@ export const symptomRouter = createTRPCRouter({
       try {
         const { id, name, weight, diseases } = input;
 
+        // get previous connected diseases
+        const previousDiseases = await ctx.prisma.symptom
+          .findUnique({
+            where: { id },
+          })
+          .diseases();
+
+        // filter diseases other than the currently selected diseases
+        const previousDiseasesIds = previousDiseases
+          ?.map((prevDisease) => prevDisease.id)
+          .filter((id) => !diseases.includes(id));
+
         const updatedSymptom = await ctx.prisma.symptom.update({
           data: {
             name,
             weight,
             diseases: {
+              disconnect: previousDiseasesIds?.map((id) => ({
+                id,
+              })),
               connect: diseases.map((id) => ({
                 id,
               })),
