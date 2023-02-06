@@ -15,7 +15,7 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
 
   const handleSignOut = () => {
     toast.loading("Signing out...", { duration: 3000 });
-    void signOut();
+    void signOut({ callbackUrl: "/" });
   };
 
   return (
