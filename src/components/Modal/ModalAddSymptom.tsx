@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import Select from "react-select";
 import { api } from "utils/api";
 import { z } from "zod";
 
@@ -10,14 +11,25 @@ import { z } from "zod";
 export const addSymptomSchema = z.object({
   name: z.string().min(1, { message: "Name field is required" }),
   weight: z.number().min(1).max(10),
+  diseases: z.string().array().min(1, "Must select at least 1 disease(s)"),
 });
 
 type AddSymptomSchema = z.infer<typeof addSymptomSchema>;
 
+type DiseasesOption = {
+  label: string;
+  value: string;
+};
+
 const ModalAddSymptom = ({ modalId }: { modalId: string }) => {
   const toggleRef = useRef<HTMLInputElement>(null);
 
+  const [diseasesOption, setDiseasesOption] = useState<
+    DiseasesOption[] | undefined
+  >();
+
   const {
+    control,
     watch,
     register,
     handleSubmit,
@@ -28,12 +40,30 @@ const ModalAddSymptom = ({ modalId }: { modalId: string }) => {
     resolver: zodResolver(addSymptomSchema),
     defaultValues: {
       weight: 0,
+      diseases: [],
     },
   });
 
   const weightValue = watch("weight");
 
   const utils = api.useContext();
+
+  const { data } = api.diseases.list.useQuery();
+
+  useEffect(() => {
+    if (data) {
+      if (data.length === 0) {
+        toast.error("Please add disease(s) before adding symptom(s)");
+        return;
+      }
+      setDiseasesOption(
+        data.map((disease) => ({
+          value: disease.id,
+          label: disease.name,
+        }))
+      );
+    }
+  }, [data]);
 
   const { mutate } = api.symptoms.create.useMutation({
     onSuccess: () => {
@@ -117,6 +147,31 @@ const ModalAddSymptom = ({ modalId }: { modalId: string }) => {
               {errors.weight?.message && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.weight?.message}
+                </p>
+              )}
+            </div>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Diseases</span>
+              </label>
+              <Controller
+                control={control}
+                name="diseases"
+                render={({ field: { onChange, name, ref } }) => (
+                  <Select
+                    ref={ref}
+                    name={name}
+                    onChange={(val) => onChange(val.map((c) => c.value))}
+                    isMulti
+                    options={diseasesOption}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
+              />
+              {errors.diseases?.message && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.diseases?.message}
                 </p>
               )}
             </div>
