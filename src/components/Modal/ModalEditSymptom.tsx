@@ -8,56 +8,61 @@ import { api } from "utils/api";
 import { z } from "zod";
 
 // validation schema is also used by server
-export const editDiseaseSchema = z.object({
+export const editSymptomSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1, { message: "Name field is required" }),
+  weight: z.number().min(1).max(10),
 });
 
-type EditDiseaseSchema = z.infer<typeof editDiseaseSchema>;
+type EditSymptomSchema = z.infer<typeof editSymptomSchema>;
 
 type Props = {
   modalId: string;
-  disease: RouterOutputs["diseases"]["list"][number] | undefined;
+  symptom: RouterOutputs["symptoms"]["list"][number] | undefined;
 };
 
-const ModalEditDisease = ({ modalId, disease }: Props) => {
+const ModalEditSymptom = ({ modalId, symptom }: Props) => {
   const toggleRef = useRef<HTMLInputElement>(null);
 
   const {
+    watch,
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<EditDiseaseSchema>({
+  } = useForm<EditSymptomSchema>({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-    resolver: zodResolver(editDiseaseSchema),
+    resolver: zodResolver(editSymptomSchema),
   });
+
+  const weightValue = watch("weight");
 
   const utils = api.useContext();
 
-  const { mutate } = api.diseases.update.useMutation({
+  const { mutate } = api.symptoms.update.useMutation({
     onSuccess: () => {
       toast.success("Update success!");
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
 
-      // invalidate disease list cache
-      void utils.diseases.list.invalidate();
+      // invalidate symptom list cache
+      void utils.symptoms.list.invalidate();
     },
     onError: ({ message }) => toast.error(message),
   });
 
-  const onSubmit = (values: EditDiseaseSchema) => {
+  const onSubmit = (values: EditSymptomSchema) => {
     mutate(values);
   };
 
   useEffect(() => {
-    if (disease) {
-      setValue("id", disease.id);
-      setValue("name", disease.name);
+    if (symptom) {
+      setValue("id", symptom.id);
+      setValue("name", symptom.name);
+      setValue("weight", symptom.weight);
     }
-  }, [disease, setValue]);
+  }, [symptom, setValue]);
 
   return (
     <>
@@ -69,7 +74,7 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
       />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-center text-lg font-bold">Edit disease</h3>
+          <h3 className="text-center text-lg font-bold">Edit symptom</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" {...register("id")} />
             <div className="form-control w-full">
@@ -78,7 +83,7 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
               </label>
               <input
                 type="text"
-                placeholder="Disease name"
+                placeholder="Symptom name"
                 className={clsx(
                   "input-bordered input w-full",
                   errors.name && "input-error"
@@ -88,6 +93,40 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
               {errors.name?.message && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.name?.message}
+                </p>
+              )}
+            </div>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Weight</span>
+                <span>{weightValue}</span>
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                className="range"
+                step="1"
+                {...register("weight", {
+                  valueAsNumber: true,
+                })}
+              />
+              <div className="flex w-full justify-between px-2 text-xs">
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+              </div>
+              {errors.weight?.message && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.weight?.message}
                 </p>
               )}
             </div>
@@ -106,4 +145,4 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
   );
 };
 
-export default ModalEditDisease;
+export default ModalEditSymptom;
