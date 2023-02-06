@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ReactNode } from "react";
@@ -8,6 +9,8 @@ import Navbar from "./Navbar";
 const Sidebar = ({ content }: { content: ReactNode }) => {
   const router = useRouter();
 
+  const { data: session } = useSession();
+
   const toggleRef = useRef<HTMLInputElement>(null);
 
   const drawerId = "my-drawer";
@@ -16,14 +19,22 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
     {
       name: "Manage Diseases",
       to: "/dashboard/diseases",
+      show: session?.user.role !== "USER",
     },
     {
       name: "Manage Symptoms",
       to: "/dashboard/symptoms",
+      show: session?.user.role !== "USER",
     },
     {
       name: "Manage Factors",
       to: "/dashboard/factors",
+      show: session?.user.role !== "USER",
+    },
+    {
+      name: "Manage Users",
+      to: "/dashboard/users",
+      show: session?.user.role === "OWNER",
     },
   ];
 
@@ -55,20 +66,24 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
           >
             Admin Dashboard
           </Link>
-          {menus.map((menu, index) => (
-            <li key={index}>
-              <Link
-                href={menu.to}
-                onClick={handleClick}
-                className={clsx(
-                  "btn-outline btn font-bold",
-                  router.pathname.startsWith(menu.to) && "btn-active"
-                )}
-              >
-                {menu.name}
-              </Link>
-            </li>
-          ))}
+          {menus.map((menu, index) => {
+            if (menu.show) {
+              return (
+                <li key={index}>
+                  <Link
+                    href={menu.to}
+                    onClick={handleClick}
+                    className={clsx(
+                      "btn-outline btn font-bold",
+                      router.pathname.startsWith(menu.to) && "btn-active"
+                    )}
+                  >
+                    {menu.name}
+                  </Link>
+                </li>
+              );
+            }
+          })}
         </ul>
       </div>
     </div>

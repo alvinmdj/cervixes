@@ -1,4 +1,5 @@
 import { diseaseRouter } from "./routers/disease";
+import { userRouter } from "./routers/users";
 import { createTRPCRouter } from "./trpc";
 
 /**
@@ -8,6 +9,7 @@ import { createTRPCRouter } from "./trpc";
  */
 export const appRouter = createTRPCRouter({
   diseases: diseaseRouter,
+  users: userRouter,
 });
 
 // export type definition of API
