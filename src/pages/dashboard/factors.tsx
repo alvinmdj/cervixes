@@ -12,6 +12,8 @@ export type DiseasesOption = {
   value: string;
 };
 
+type FactorType = RouterOutputs["factors"]["list"][number];
+
 const Factors = () => {
   const addModalId = useId();
   const editModalId = useId();
@@ -21,12 +23,13 @@ const Factors = () => {
     DiseasesOption[] | undefined
   >();
 
-  const [selectedFactor, setSelectedFactor] =
-    useState<RouterOutputs["factors"]["list"][number]>();
+  const [selectedFactor, setSelectedFactor] = useState<FactorType>();
+
+  const handleActionClick = (clickedFactor: FactorType) => {
+    setSelectedFactor(clickedFactor);
+  };
 
   const utils = api.useContext();
-
-  const { data, isLoading } = api.factors.list.useQuery();
 
   const { mutate } = api.factors.delete.useMutation({
     onError: () => {
@@ -75,76 +78,96 @@ const Factors = () => {
           if (selectedFactor) mutate({ factorId: selectedFactor.id });
         }}
       />
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Weight</th>
-              <th>Diseases</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading && (
-              <tr>
-                <td colSpan={5} className="text-center">
-                  Loading data...
-                </td>
-              </tr>
-            )}
-            {data?.length === 0 && (
-              <tr>
-                <td colSpan={6} className="text-center">
-                  No entries found...
-                </td>
-              </tr>
-            )}
-            {data &&
-              data.map((factor, index) => (
-                <tr key={factor.id}>
-                  <th>{index + 1}</th>
-                  <td>{factor.name}</td>
-                  <td>{factor.weight}</td>
-                  <td>
-                    <div className="flex flex-wrap gap-2">
-                      {factor.diseases.length ? (
-                        factor.diseases.map((disease) => (
-                          <div key={disease.id} className="badge badge-lg">
-                            {disease.name}
-                          </div>
-                        ))
-                      ) : (
-                        <span>No associated diseases.</span>
-                      )}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex flex-wrap gap-2">
-                      <label
-                        htmlFor={editModalId}
-                        className="btn-info btn-sm btn flex-1"
-                        onClick={() => setSelectedFactor(factor)}
-                      >
-                        Edit
-                      </label>
-                      <label
-                        htmlFor={deleteConfirmationModalId}
-                        className="btn-error btn-sm btn flex-1"
-                        onClick={() => setSelectedFactor(factor)}
-                      >
-                        Remove
-                      </label>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+      <FactorList
+        editModalId={editModalId}
+        deleteConfirmationModalId={deleteConfirmationModalId}
+        onClickAction={handleActionClick}
+      />
     </AdminCheck>
   );
 };
 
 export default Factors;
+
+const FactorList = ({
+  editModalId,
+  deleteConfirmationModalId,
+  onClickAction,
+}: {
+  editModalId: string;
+  deleteConfirmationModalId: string;
+  onClickAction: (clickedFactor: FactorType) => void;
+}) => {
+  const { data, isLoading } = api.factors.list.useQuery();
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Diseases</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading && (
+            <tr>
+              <td colSpan={5} className="text-center">
+                Loading data...
+              </td>
+            </tr>
+          )}
+          {data?.length === 0 && (
+            <tr>
+              <td colSpan={6} className="text-center">
+                No entries found...
+              </td>
+            </tr>
+          )}
+          {data &&
+            data.map((factor, index) => (
+              <tr key={factor.id}>
+                <th>{index + 1}</th>
+                <td>{factor.name}</td>
+                <td>{factor.weight}</td>
+                <td>
+                  <div className="flex flex-wrap gap-2">
+                    {factor.diseases.length ? (
+                      factor.diseases.map((disease) => (
+                        <div key={disease.id} className="badge badge-lg">
+                          {disease.name}
+                        </div>
+                      ))
+                    ) : (
+                      <span>No associated diseases.</span>
+                    )}
+                  </div>
+                </td>
+                <td>
+                  <div className="flex flex-wrap gap-2">
+                    <label
+                      htmlFor={editModalId}
+                      className="btn-info btn-sm btn flex-1"
+                      onClick={() => onClickAction(factor)}
+                    >
+                      Edit
+                    </label>
+                    <label
+                      htmlFor={deleteConfirmationModalId}
+                      className="btn-error btn-sm btn flex-1"
+                      onClick={() => onClickAction(factor)}
+                    >
+                      Remove
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};

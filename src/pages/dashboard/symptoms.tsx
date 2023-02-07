@@ -12,6 +12,8 @@ export type DiseasesOption = {
   value: string;
 };
 
+type SymptomType = RouterOutputs["symptoms"]["list"][number];
+
 const Symptoms = () => {
   const addModalId = useId();
   const editModalId = useId();
@@ -21,12 +23,13 @@ const Symptoms = () => {
     DiseasesOption[] | undefined
   >();
 
-  const [selectedSymptom, setSelectedSymptom] =
-    useState<RouterOutputs["symptoms"]["list"][number]>();
+  const [selectedSymptom, setSelectedSymptom] = useState<SymptomType>();
+
+  const handleActionClick = (clickedFactor: SymptomType) => {
+    setSelectedSymptom(clickedFactor);
+  };
 
   const utils = api.useContext();
-
-  const { data, isLoading } = api.symptoms.list.useQuery();
 
   const { mutate } = api.symptoms.delete.useMutation({
     onError: () => {
@@ -75,76 +78,96 @@ const Symptoms = () => {
           if (selectedSymptom) mutate({ symptomId: selectedSymptom.id });
         }}
       />
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Weight</th>
-              <th>Diseases</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading && (
-              <tr>
-                <td colSpan={5} className="text-center">
-                  Loading data...
-                </td>
-              </tr>
-            )}
-            {data?.length === 0 && (
-              <tr>
-                <td colSpan={6} className="text-center">
-                  No entries found...
-                </td>
-              </tr>
-            )}
-            {data &&
-              data.map((symptom, index) => (
-                <tr key={symptom.id}>
-                  <th>{index + 1}</th>
-                  <td>{symptom.name}</td>
-                  <td>{symptom.weight}</td>
-                  <td>
-                    <div className="flex flex-wrap gap-2">
-                      {symptom.diseases.length ? (
-                        symptom.diseases.map((disease) => (
-                          <div key={disease.id} className="badge badge-lg">
-                            {disease.name}
-                          </div>
-                        ))
-                      ) : (
-                        <span>No associated diseases.</span>
-                      )}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex flex-wrap gap-2">
-                      <label
-                        htmlFor={editModalId}
-                        className="btn-info btn-sm btn flex-1"
-                        onClick={() => setSelectedSymptom(symptom)}
-                      >
-                        Edit
-                      </label>
-                      <label
-                        htmlFor={deleteConfirmationModalId}
-                        className="btn-error btn-sm btn flex-1"
-                        onClick={() => setSelectedSymptom(symptom)}
-                      >
-                        Remove
-                      </label>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+      <SymptomList
+        editModalId={editModalId}
+        deleteConfirmationModalId={deleteConfirmationModalId}
+        onClickAction={handleActionClick}
+      />
     </AdminCheck>
   );
 };
 
 export default Symptoms;
+
+const SymptomList = ({
+  editModalId,
+  deleteConfirmationModalId,
+  onClickAction,
+}: {
+  editModalId: string;
+  deleteConfirmationModalId: string;
+  onClickAction: (clickedFactor: SymptomType) => void;
+}) => {
+  const { data, isLoading } = api.symptoms.list.useQuery();
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Diseases</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading && (
+            <tr>
+              <td colSpan={5} className="text-center">
+                Loading data...
+              </td>
+            </tr>
+          )}
+          {data?.length === 0 && (
+            <tr>
+              <td colSpan={6} className="text-center">
+                No entries found...
+              </td>
+            </tr>
+          )}
+          {data &&
+            data.map((symptom, index) => (
+              <tr key={symptom.id}>
+                <th>{index + 1}</th>
+                <td>{symptom.name}</td>
+                <td>{symptom.weight}</td>
+                <td>
+                  <div className="flex flex-wrap gap-2">
+                    {symptom.diseases.length ? (
+                      symptom.diseases.map((disease) => (
+                        <div key={disease.id} className="badge badge-lg">
+                          {disease.name}
+                        </div>
+                      ))
+                    ) : (
+                      <span>No associated diseases.</span>
+                    )}
+                  </div>
+                </td>
+                <td>
+                  <div className="flex flex-wrap gap-2">
+                    <label
+                      htmlFor={editModalId}
+                      className="btn-info btn-sm btn flex-1"
+                      onClick={() => onClickAction(symptom)}
+                    >
+                      Edit
+                    </label>
+                    <label
+                      htmlFor={deleteConfirmationModalId}
+                      className="btn-error btn-sm btn flex-1"
+                      onClick={() => onClickAction(symptom)}
+                    >
+                      Remove
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
