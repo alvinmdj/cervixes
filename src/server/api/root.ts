@@ -1,3 +1,4 @@
+import { dashboardRouter } from "./routers/dashboard";
 import { diseaseRouter } from "./routers/diseases";
 import { factorRouter } from "./routers/factors";
 import { symptomRouter } from "./routers/symptoms";
@@ -10,6 +11,7 @@ import { createTRPCRouter } from "./trpc";
  * All routers added in /api/routers should be manually added here
  */
 export const appRouter = createTRPCRouter({
+  dashboards: dashboardRouter,
   diseases: diseaseRouter,
   factors: factorRouter,
   symptoms: symptomRouter,
