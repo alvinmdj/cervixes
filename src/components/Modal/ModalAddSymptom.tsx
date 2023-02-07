@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import type { DiseasesOption } from "pages/dashboard/symptoms";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Select from "react-select";
@@ -25,6 +25,8 @@ type Props = {
 const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
   const toggleRef = useRef<HTMLInputElement>(null);
 
+  const [selectedDiseases, setSelectedDiseases] = useState<DiseasesOption[]>();
+
   const {
     control,
     watch,
@@ -43,6 +45,11 @@ const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
 
   const weightValue = watch("weight");
 
+  const resetInput = () => {
+    reset();
+    setSelectedDiseases([]);
+  };
+
   const utils = api.useContext();
 
   const { mutate } = api.symptoms.create.useMutation({
@@ -53,7 +60,7 @@ const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
       if (toggleRef.current) toggleRef.current.checked = false;
 
       // reset input
-      reset();
+      resetInput();
 
       // invalidate symptoms list cache
       void utils.symptoms.list.invalidate();
@@ -141,7 +148,11 @@ const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
                   <Select
                     ref={ref}
                     name={name}
-                    onChange={(val) => onChange(val.map((c) => c.value))}
+                    onChange={(val) => {
+                      setSelectedDiseases(val.map((c) => c));
+                      onChange(val.map((c) => c.value));
+                    }}
+                    value={selectedDiseases}
                     isMulti
                     options={diseasesOption}
                     className="basic-multi-select"
@@ -157,7 +168,7 @@ const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
             </div>
             <div className="modal-action">
               <label
-                onClick={() => reset()}
+                onClick={resetInput}
                 htmlFor={modalId}
                 className="btn-ghost btn bg-base-200"
               >
