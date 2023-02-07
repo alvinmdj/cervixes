@@ -56,7 +56,13 @@ const ModalEditSymptom = ({ modalId, symptom, diseasesOption }: Props) => {
       // invalidate symptom list cache
       void utils.symptoms.list.invalidate();
     },
-    onError: ({ message }) => toast.error(message),
+    onError: (error) => {
+      if (error.data && error.data?.httpStatus >= 500) {
+        toast.error("Internal server error");
+      } else {
+        toast.error(error.message);
+      }
+    },
   });
 
   const onSubmit = (values: EditSymptomSchema) => {

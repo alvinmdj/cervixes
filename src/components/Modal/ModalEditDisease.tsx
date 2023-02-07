@@ -45,7 +45,13 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
       // invalidate disease list cache
       void utils.diseases.list.invalidate();
     },
-    onError: ({ message }) => toast.error(message),
+    onError: (error) => {
+      if (error.data && error.data?.httpStatus >= 500) {
+        toast.error("Internal server error");
+      } else {
+        toast.error(error.message);
+      }
+    },
   });
 
   const onSubmit = (values: EditDiseaseSchema) => {
