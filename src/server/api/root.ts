@@ -1,4 +1,5 @@
 import { diseaseRouter } from "./routers/diseases";
+import { factorRouter } from "./routers/factors";
 import { symptomRouter } from "./routers/symptoms";
 import { userRouter } from "./routers/users";
 import { createTRPCRouter } from "./trpc";
@@ -10,6 +11,7 @@ import { createTRPCRouter } from "./trpc";
  */
 export const appRouter = createTRPCRouter({
   diseases: diseaseRouter,
+  factors: factorRouter,
   symptoms: symptomRouter,
   users: userRouter,
 });
