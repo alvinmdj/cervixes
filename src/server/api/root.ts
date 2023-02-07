@@ -1,5 +1,5 @@
-import { diseaseRouter } from "./routers/disease";
-import { symptomRouter } from "./routers/symptom";
+import { diseaseRouter } from "./routers/diseases";
+import { symptomRouter } from "./routers/symptoms";
 import { userRouter } from "./routers/users";
 import { createTRPCRouter } from "./trpc";
 
