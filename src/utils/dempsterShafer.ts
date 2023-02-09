@@ -61,7 +61,7 @@ export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
             );
 
             if (sameDiseases?.length === 0) diseases = [CONFLICT];
-            else diseases = sameDiseases as string[];
+            else diseases = sameDiseases;
           }
 
           multiplyResult.push({
