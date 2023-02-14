@@ -41,6 +41,7 @@ const Factors = () => {
             <tr>
               <th>#</th>
               <th>Name</th>
+              <th>Email</th>
               <th>Role</th>
               <th>Manage</th>
             </tr>
@@ -75,6 +76,7 @@ const Factors = () => {
                       {user.name}
                     </div>
                   </td>
+                  <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
                     {user.role === "USER" && (
