@@ -15,7 +15,10 @@ export const factorRouter = createTRPCRouter({
         // check if factor with same disease already exist
         const isExist = await ctx.prisma.factor.findFirst({
           where: {
-            name,
+            name: {
+              equals: name,
+              mode: "insensitive",
+            },
             diseases: {
               some: {
                 id: {
@@ -81,7 +84,14 @@ export const factorRouter = createTRPCRouter({
         // check if factor with same disease already exist
         const isExist = await ctx.prisma.factor.findFirst({
           where: {
-            name,
+            // make sure the existing is not the current symptom ID
+            id: {
+              not: id,
+            },
+            name: {
+              equals: name,
+              mode: "insensitive",
+            },
             diseases: {
               some: {
                 id: {
@@ -95,8 +105,8 @@ export const factorRouter = createTRPCRouter({
           },
         });
 
-        // throw error if exists & the existing is not the current factor ID
-        if (isExist && isExist.id !== id) {
+        // throw error if exists
+        if (isExist) {
           const isExistDiseaseNames = isExist.diseases
             .map((disease) => disease.name)
             .join(", ");
