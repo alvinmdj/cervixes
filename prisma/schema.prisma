@@ -77,7 +77,7 @@ model Disease {
 
 model Symptom {
     id        String    @id @default(cuid())
-    name      String    @unique
+    name      String
     weight    Int
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -86,7 +86,7 @@ model Symptom {
 
 model Factor {
     id        String    @id @default(cuid())
-    name      String    @unique
+    name      String
     weight    Int
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
