@@ -1,6 +1,10 @@
 import type { OptionType } from "pages/diagnose";
 
 export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
+  if (selectedOptions.length === 1) {
+    return selectedOptions;
+  }
+
   // Conflict indicator
   const CONFLICT = "CONFLICT_NO_SAME_DISEASE";
 
@@ -13,10 +17,12 @@ export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
   let nextMassFunc: OptionType[] = [];
 
   while (selectedOptions.length > initialIndex) {
-    // set the current mass func:
-    // requires 2 mass func at first iteration
-    // requires 1 mass func for next iteration, because
-    // the other mass func will be provided from the previous iteration
+    /**
+     * set the current mass func:
+     * requires 2 mass func at first iteration
+     * requires 1 mass func for next iteration, because
+     * the other mass func will be provided from the previous iteration
+     **/
     for (let i = 0; i < limit; i++) {
       if (initialIndex >= selectedOptions.length) break;
       current.push(selectedOptions[initialIndex] as OptionType);
@@ -29,11 +35,13 @@ export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
       const mTheta = 1 - curr.weight;
       massFunc.push(
         {
+          id: curr.id,
           name: curr.name,
           diseases: curr.diseases,
           weight: m,
         },
         {
+          id: curr.id,
           name: curr.name,
           diseases: [],
           weight: mTheta,
@@ -47,7 +55,7 @@ export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
     // do the multiplication between m1 & m2
     for (let i = 0; i < massFunc.length; i++) {
       for (let j = i + 1; j < massFunc.length; j++) {
-        if (massFunc[i]?.name !== massFunc[j]?.name) {
+        if (massFunc[i]?.id !== massFunc[j]?.id) {
           let diseases: string[] | undefined = [];
           if (!massFunc[i]?.diseases.length && !massFunc[j]?.diseases.length)
             diseases = [];
@@ -65,6 +73,7 @@ export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
           }
 
           multiplyResult.push({
+            id: initialIndex.toString(),
             name: "multiplyResult",
             diseases: diseases as string[],
             weight:

@@ -17,6 +17,20 @@ const Diagnose = () => {
   const [result, setResult] = useState<OptionType[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const uniqueSymptoms = diagnoseOptions.data?.symptoms.filter(
+    (symptom, index, array) => {
+      // Keep the symptom only if it's the first occurrence in the array
+      return array.findIndex((s) => s.name === symptom.name) === index;
+    }
+  );
+
+  const uniqueFactors = diagnoseOptions.data?.factors.filter(
+    (factor, index, array) => {
+      // Keep the factor only if it's the first occurrence in the array
+      return array.findIndex((f) => f.name === factor.name) === index;
+    }
+  );
+
   const handleDiagnose = () => {
     setIsProcessing(true);
 
@@ -24,8 +38,8 @@ const Diagnose = () => {
     const base: OptionType[] = [...selectedSymptoms, ...selectedFactors];
 
     // Cancel diagnose if selected options less than 2
-    if (base.length < 2) {
-      toast.error("Please choose more than 1 options");
+    if (base.length === 0) {
+      toast.error("Mohon untuk memilih setidaknya satu pilihan yang tersedia.");
       setIsProcessing(false);
       return;
     }
@@ -49,15 +63,25 @@ const Diagnose = () => {
           </h2>
           {diagnoseOptions.isLoading && <OptionSkeleton />}
           {diagnoseOptions.data &&
-            diagnoseOptions.data.symptoms.map((symptom) => (
-              <div key={symptom.name} className="mb-3 flex items-center gap-3">
+            uniqueSymptoms &&
+            uniqueSymptoms.map((symptom) => (
+              <div key={symptom.id} className="mb-3 flex items-center gap-3">
                 <input
                   type="checkbox"
                   className="checkbox"
                   onChange={(e) => {
                     if (e.target.checked) {
                       setSelectedSymptoms((prevState) =>
-                        prevState ? [...prevState, symptom] : [symptom]
+                        prevState
+                          ? [
+                              ...prevState.filter(
+                                (s) => s.name !== symptom.name
+                              ),
+                              ...diagnoseOptions.data.symptoms.filter(
+                                (s) => s.name === symptom.name
+                              ),
+                            ]
+                          : [symptom]
                       );
                     } else {
                       setSelectedSymptoms((prevState) =>
@@ -79,20 +103,30 @@ const Diagnose = () => {
           </h2>
           {diagnoseOptions.isLoading && <OptionSkeleton />}
           {diagnoseOptions.data &&
-            diagnoseOptions.data.factors.map((factor) => (
-              <div key={factor.name} className="mb-3 flex items-center gap-3">
+            uniqueFactors &&
+            uniqueFactors.map((factor) => (
+              <div key={factor.id} className="mb-3 flex items-center gap-3">
                 <input
                   type="checkbox"
                   className="checkbox"
                   onChange={(e) => {
                     if (e.target.checked) {
                       setSelectedFactors((prevState) =>
-                        prevState ? [...prevState, factor] : [factor]
+                        prevState
+                          ? [
+                              ...prevState.filter(
+                                (f) => f.name !== factor.name
+                              ),
+                              ...diagnoseOptions.data.factors.filter(
+                                (f) => f.name === factor.name
+                              ),
+                            ]
+                          : [factor]
                       );
                     } else {
                       setSelectedFactors((prevState) =>
                         prevState
-                          ? prevState.filter((s) => s.name !== factor.name)
+                          ? prevState.filter((f) => f.name !== factor.name)
                           : prevState
                       );
                     }

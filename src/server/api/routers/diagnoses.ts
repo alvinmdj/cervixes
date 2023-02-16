@@ -4,6 +4,7 @@ export const diagnoseRouter = createTRPCRouter({
   getOptions: publicProcedure.query(async ({ ctx }) => {
     const symptoms = await ctx.prisma.symptom.findMany({
       select: {
+        id: true,
         name: true,
         weight: true,
         diseases: {
@@ -26,6 +27,7 @@ export const diagnoseRouter = createTRPCRouter({
 
     const factors = await ctx.prisma.factor.findMany({
       select: {
+        id: true,
         name: true,
         weight: true,
         diseases: {
