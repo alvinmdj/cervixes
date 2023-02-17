@@ -90,34 +90,38 @@ const Diagnose = () => {
           {diagnoseOptions.data &&
             uniqueSymptoms &&
             uniqueSymptoms.map((symptom) => (
-              <div key={symptom.id} className="mb-3 flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedSymptoms((prevState) =>
-                        prevState
-                          ? [
-                              ...prevState.filter(
-                                (s) => s.name !== symptom.name
-                              ),
-                              ...diagnoseOptions.data.symptoms.filter(
-                                (s) => s.name === symptom.name
-                              ),
-                            ]
-                          : [symptom]
-                      );
-                    } else {
-                      setSelectedSymptoms((prevState) =>
-                        prevState
-                          ? prevState.filter((s) => s.name !== symptom.name)
-                          : prevState
-                      );
-                    }
-                  }}
-                />
-                {symptom.name}
+              <div key={symptom.id} className="flex items-center gap-3">
+                <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
+                  <input
+                    type="checkbox"
+                    className="checkbox-accent checkbox checkbox-lg"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedSymptoms((prevState) =>
+                          prevState
+                            ? [
+                                ...prevState.filter(
+                                  (s) => s.name !== symptom.name
+                                ),
+                                ...diagnoseOptions.data.symptoms.filter(
+                                  (s) => s.name === symptom.name
+                                ),
+                              ]
+                            : [symptom]
+                        );
+                      } else {
+                        setSelectedSymptoms((prevState) =>
+                          prevState
+                            ? prevState.filter((s) => s.name !== symptom.name)
+                            : prevState
+                        );
+                      }
+                    }}
+                  />
+                  <span className="label-text ml-3 text-base">
+                    {symptom.name}
+                  </span>
+                </label>
               </div>
             ))}
         </div>
@@ -133,34 +137,38 @@ const Diagnose = () => {
           {diagnoseOptions.data &&
             uniqueFactors &&
             uniqueFactors.map((factor) => (
-              <div key={factor.id} className="mb-3 flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedFactors((prevState) =>
-                        prevState
-                          ? [
-                              ...prevState.filter(
-                                (f) => f.name !== factor.name
-                              ),
-                              ...diagnoseOptions.data.factors.filter(
-                                (f) => f.name === factor.name
-                              ),
-                            ]
-                          : [factor]
-                      );
-                    } else {
-                      setSelectedFactors((prevState) =>
-                        prevState
-                          ? prevState.filter((f) => f.name !== factor.name)
-                          : prevState
-                      );
-                    }
-                  }}
-                />
-                {factor.name}
+              <div key={factor.id} className="flex items-center gap-3">
+                <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
+                  <input
+                    type="checkbox"
+                    className="checkbox-accent checkbox checkbox-lg"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedFactors((prevState) =>
+                          prevState
+                            ? [
+                                ...prevState.filter(
+                                  (f) => f.name !== factor.name
+                                ),
+                                ...diagnoseOptions.data.factors.filter(
+                                  (f) => f.name === factor.name
+                                ),
+                              ]
+                            : [factor]
+                        );
+                      } else {
+                        setSelectedFactors((prevState) =>
+                          prevState
+                            ? prevState.filter((f) => f.name !== factor.name)
+                            : prevState
+                        );
+                      }
+                    }}
+                  />
+                  <span className="label-text ml-3 text-base">
+                    {factor.name}
+                  </span>
+                </label>
               </div>
             ))}
         </div>
@@ -232,17 +240,17 @@ const ResultModal = ({
 
 const OptionSkeleton = () => (
   <>
-    <div className="mb-3 flex">
-      <div className="mr-3 h-6 w-6 animate-pulse rounded-md bg-gray-200" />
-      <div className="h-6 w-32 animate-pulse rounded-md bg-gray-200" />
+    <div className="ml-1 mb-4 flex">
+      <div className="mr-3 h-8 w-8 animate-pulse rounded-md bg-gray-200" />
+      <div className="h-8 w-32 animate-pulse rounded-md bg-gray-200" />
     </div>
-    <div className="mb-3 flex">
-      <div className="mr-3 h-6 w-6 animate-pulse rounded-md bg-gray-200" />
-      <div className="h-6 w-32 animate-pulse rounded-md bg-gray-200" />
+    <div className="ml-1 mb-4 flex">
+      <div className="mr-3 h-8 w-8 animate-pulse rounded-md bg-gray-200" />
+      <div className="h-8 w-32 animate-pulse rounded-md bg-gray-200" />
     </div>
-    <div className="mb-3 flex">
-      <div className="mr-3 h-6 w-6 animate-pulse rounded-md bg-gray-200" />
-      <div className="h-6 w-32 animate-pulse rounded-md bg-gray-200" />
+    <div className="ml-1 mb-4 flex">
+      <div className="mr-3 h-8 w-8 animate-pulse rounded-md bg-gray-200" />
+      <div className="h-8 w-32 animate-pulse rounded-md bg-gray-200" />
     </div>
   </>
 );
