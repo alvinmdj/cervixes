@@ -17,6 +17,7 @@ const Diagnose = () => {
   const [result, setResult] = useState<OptionType[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [clearCheckboxes, setClearCheckboxes] = useState(false);
+  const [openResultModal, setOpenResultModal] = useState(false);
 
   const uniqueSymptoms = diagnoseOptions.data?.symptoms.filter(
     (symptom, index, array) => {
@@ -47,24 +48,34 @@ const Diagnose = () => {
 
     // Calculate diagnose result using dempster-shafer method
     setResult(dempsterShafer(base));
-
+    setOpenResultModal(true);
     setIsProcessing(false);
   };
 
   // Clear all checkboxes while also clear all the selected factors & symptoms from the state
-  function handleResetClick() {
+  const handleResetClick = () => {
     setSelectedFactors([]);
     setSelectedSymptoms([]);
     setClearCheckboxes(true);
     setTimeout(() => {
       setClearCheckboxes(false);
     }, 100);
-  }
+  };
+
+  const handleCloseResultModal = () => {
+    setOpenResultModal(false);
+  };
 
   return (
     <div>
+      <ResultModal
+        result={result}
+        openResultModal={openResultModal}
+        handleCloseResultModal={handleCloseResultModal}
+      />
+
       <h1 className="my-3 text-center text-2xl font-extrabold">
-        Diagnose Cervical Cancer
+        Sistem Pakar Diagnosis Kanker Serviks
       </h1>
 
       <div className="mx-5 mt-5">
@@ -73,7 +84,7 @@ const Diagnose = () => {
           key={clearCheckboxes ? "clear-symptoms" : "not-clear-symptoms"}
         >
           <h2 className="mb-3 text-xl font-bold">
-            Choose all the symptoms you feel
+            Pilih gejala-gejala yang Anda alami di bawah ini:
           </h2>
           {diagnoseOptions.isLoading && <OptionSkeleton />}
           {diagnoseOptions.data &&
@@ -116,7 +127,7 @@ const Diagnose = () => {
           key={clearCheckboxes ? "clear-factors" : "not-clear-factors"}
         >
           <h2 className="mb-3 text-xl font-bold">
-            Choose all the factors you feel
+            Pilih faktor-faktor yang Anda alami di bawah ini:
           </h2>
           {diagnoseOptions.isLoading && <OptionSkeleton />}
           {diagnoseOptions.data &&
@@ -167,23 +178,57 @@ const Diagnose = () => {
           <button
             className={clsx(
               "btn-error btn",
-              selectedFactors.length === 0 &&
-                selectedSymptoms.length === 0 &&
-                "btn-disabled"
+              (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
             )}
             onClick={handleResetClick}
           >
             Hapus Pilihan
           </button>
         </div>
-
-        {result.length !== 0 && <p>{JSON.stringify(result)}</p>}
       </div>
     </div>
   );
 };
 
 export default Diagnose;
+
+const ResultModal = ({
+  result,
+  openResultModal,
+  handleCloseResultModal,
+}: {
+  result: OptionType[];
+  openResultModal: boolean;
+  handleCloseResultModal: () => void;
+}) => {
+  return (
+    <>
+      <input
+        type="checkbox"
+        id="my-modal-5"
+        className="modal-toggle"
+        checked={openResultModal}
+      />
+      <div className="modal">
+        <div className="modal-box w-11/12 max-w-5xl">
+          <h3 className="text-center text-lg font-bold">Hasil Diagnosis</h3>
+          {/* Disclaimer */}
+          {/* Result */}
+          {/* What to do next */}
+          {/* Prevention, etc. */}
+          {result.length !== 0 && (
+            <p className="py-4">{JSON.stringify(result)}</p>
+          )}
+          <div className="modal-action">
+            <button onClick={handleCloseResultModal} className="btn">
+              Kembali
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const OptionSkeleton = () => (
   <>
