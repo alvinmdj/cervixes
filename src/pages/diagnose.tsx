@@ -16,6 +16,7 @@ const Diagnose = () => {
   const [selectedFactors, setSelectedFactors] = useState<FactorType[]>([]);
   const [result, setResult] = useState<OptionType[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [clearCheckboxes, setClearCheckboxes] = useState(false);
 
   const uniqueSymptoms = diagnoseOptions.data?.symptoms.filter(
     (symptom, index, array) => {
@@ -50,6 +51,16 @@ const Diagnose = () => {
     setIsProcessing(false);
   };
 
+  // Clear all checkboxes while also clear all the selected factors & symptoms from the state
+  function handleResetClick() {
+    setSelectedFactors([]);
+    setSelectedSymptoms([]);
+    setClearCheckboxes(true);
+    setTimeout(() => {
+      setClearCheckboxes(false);
+    }, 100);
+  }
+
   return (
     <div>
       <h1 className="my-3 text-center text-2xl font-extrabold">
@@ -57,7 +68,10 @@ const Diagnose = () => {
       </h1>
 
       <div className="mx-5 mt-5">
-        <div className="mb-4">
+        <div
+          className="mb-4"
+          key={clearCheckboxes ? "clear-symptoms" : "not-clear-symptoms"}
+        >
           <h2 className="mb-3 text-xl font-bold">
             Choose all the symptoms you feel
           </h2>
@@ -97,7 +111,10 @@ const Diagnose = () => {
             ))}
         </div>
 
-        <div className="mb-4">
+        <div
+          className="mb-4"
+          key={clearCheckboxes ? "clear-factors" : "not-clear-factors"}
+        >
           <h2 className="mb-3 text-xl font-bold">
             Choose all the factors you feel
           </h2>
@@ -137,15 +154,28 @@ const Diagnose = () => {
             ))}
         </div>
 
-        <button
-          className={clsx(
-            "btn-primary btn mt-3",
-            (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
-          )}
-          onClick={handleDiagnose}
-        >
-          {isProcessing ? "Diagnosing" : "Diagnose"}
-        </button>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            className={clsx(
+              "btn-primary btn",
+              (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
+            )}
+            onClick={handleDiagnose}
+          >
+            {isProcessing ? "Menjalankan Diagnosa..." : "Periksa Sekarang"}
+          </button>
+          <button
+            className={clsx(
+              "btn-error btn",
+              selectedFactors.length === 0 &&
+                selectedSymptoms.length === 0 &&
+                "btn-disabled"
+            )}
+            onClick={handleResetClick}
+          >
+            Hapus Pilihan
+          </button>
+        </div>
 
         {result.length !== 0 && <p>{JSON.stringify(result)}</p>}
       </div>
