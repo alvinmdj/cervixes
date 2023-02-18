@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import type { RouterOutputs } from "utils/api";
@@ -78,121 +79,130 @@ const Diagnose = () => {
         Sistem Pakar Diagnosis Kanker Serviks
       </h1>
 
-      <div className="mx-5 mt-5">
-        <div
-          className="mb-4"
-          key={clearCheckboxes ? "clear-symptoms" : "not-clear-symptoms"}
-        >
-          <h2 className="mb-3 text-xl font-bold">
-            Pilih gejala-gejala yang Anda alami di bawah ini:
-          </h2>
-          {diagnoseOptions.isLoading && <OptionSkeleton />}
-          {diagnoseOptions.data &&
-            uniqueSymptoms &&
-            uniqueSymptoms.map((symptom) => (
-              <div key={symptom.id} className="flex items-center gap-3">
-                <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
-                  <input
-                    type="checkbox"
-                    className="checkbox-accent checkbox checkbox-lg"
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedSymptoms((prevState) =>
-                          prevState
-                            ? [
-                                ...prevState.filter(
-                                  (s) => s.name !== symptom.name
-                                ),
-                                ...diagnoseOptions.data.symptoms.filter(
-                                  (s) => s.name === symptom.name
-                                ),
-                              ]
-                            : [symptom]
-                        );
-                      } else {
-                        setSelectedSymptoms((prevState) =>
-                          prevState
-                            ? prevState.filter((s) => s.name !== symptom.name)
-                            : prevState
-                        );
-                      }
-                    }}
-                  />
-                  <span className="label-text ml-3 text-base">
-                    {symptom.name}
-                  </span>
-                </label>
-              </div>
-            ))}
-        </div>
-
-        <div
-          className="mb-4"
-          key={clearCheckboxes ? "clear-factors" : "not-clear-factors"}
-        >
-          <h2 className="mb-3 text-xl font-bold">
-            Pilih faktor-faktor yang Anda alami di bawah ini:
-          </h2>
-          {diagnoseOptions.isLoading && <OptionSkeleton />}
-          {diagnoseOptions.data &&
-            uniqueFactors &&
-            uniqueFactors.map((factor) => (
-              <div key={factor.id} className="flex items-center gap-3">
-                <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
-                  <input
-                    type="checkbox"
-                    className="checkbox-accent checkbox checkbox-lg"
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedFactors((prevState) =>
-                          prevState
-                            ? [
-                                ...prevState.filter(
-                                  (f) => f.name !== factor.name
-                                ),
-                                ...diagnoseOptions.data.factors.filter(
-                                  (f) => f.name === factor.name
-                                ),
-                              ]
-                            : [factor]
-                        );
-                      } else {
-                        setSelectedFactors((prevState) =>
-                          prevState
-                            ? prevState.filter((f) => f.name !== factor.name)
-                            : prevState
-                        );
-                      }
-                    }}
-                  />
-                  <span className="label-text ml-3 text-base">
-                    {factor.name}
-                  </span>
-                </label>
-              </div>
-            ))}
-        </div>
-
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            className={clsx(
-              "btn-primary btn",
-              (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
-            )}
-            onClick={handleDiagnose}
+      <div className="mx-auto flex w-11/12 items-center justify-around gap-3">
+        <div className="mt-5">
+          <div
+            className="mb-4"
+            key={clearCheckboxes ? "clear-symptoms" : "not-clear-symptoms"}
           >
-            {isProcessing ? "Menjalankan Diagnosa..." : "Periksa Sekarang"}
-          </button>
-          <button
-            className={clsx(
-              "btn-error btn",
-              (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
-            )}
-            onClick={handleResetClick}
+            <h2 className="mb-3 text-xl font-bold">
+              Pilih gejala-gejala yang Anda alami di bawah ini:
+            </h2>
+            {diagnoseOptions.isLoading && <OptionSkeleton />}
+            {diagnoseOptions.data &&
+              uniqueSymptoms &&
+              uniqueSymptoms.map((symptom) => (
+                <div key={symptom.id} className="flex items-center gap-3">
+                  <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
+                    <input
+                      type="checkbox"
+                      className="checkbox-accent checkbox checkbox-lg"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedSymptoms((prevState) =>
+                            prevState
+                              ? [
+                                  ...prevState.filter(
+                                    (s) => s.name !== symptom.name
+                                  ),
+                                  ...diagnoseOptions.data.symptoms.filter(
+                                    (s) => s.name === symptom.name
+                                  ),
+                                ]
+                              : [symptom]
+                          );
+                        } else {
+                          setSelectedSymptoms((prevState) =>
+                            prevState
+                              ? prevState.filter((s) => s.name !== symptom.name)
+                              : prevState
+                          );
+                        }
+                      }}
+                    />
+                    <span className="label-text ml-3 text-base">
+                      {symptom.name}
+                    </span>
+                  </label>
+                </div>
+              ))}
+          </div>
+
+          <div
+            className="mb-4"
+            key={clearCheckboxes ? "clear-factors" : "not-clear-factors"}
           >
-            Hapus Pilihan
-          </button>
+            <h2 className="mb-3 text-xl font-bold">
+              Pilih faktor-faktor yang Anda alami di bawah ini:
+            </h2>
+            {diagnoseOptions.isLoading && <OptionSkeleton />}
+            {diagnoseOptions.data &&
+              uniqueFactors &&
+              uniqueFactors.map((factor) => (
+                <div key={factor.id} className="flex items-center gap-3">
+                  <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
+                    <input
+                      type="checkbox"
+                      className="checkbox-accent checkbox checkbox-lg"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedFactors((prevState) =>
+                            prevState
+                              ? [
+                                  ...prevState.filter(
+                                    (f) => f.name !== factor.name
+                                  ),
+                                  ...diagnoseOptions.data.factors.filter(
+                                    (f) => f.name === factor.name
+                                  ),
+                                ]
+                              : [factor]
+                          );
+                        } else {
+                          setSelectedFactors((prevState) =>
+                            prevState
+                              ? prevState.filter((f) => f.name !== factor.name)
+                              : prevState
+                          );
+                        }
+                      }}
+                    />
+                    <span className="label-text ml-3 text-base">
+                      {factor.name}
+                    </span>
+                  </label>
+                </div>
+              ))}
+          </div>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              className={clsx(
+                "btn-primary btn",
+                (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
+              )}
+              onClick={handleDiagnose}
+            >
+              {isProcessing ? "Menjalankan Diagnosa..." : "Periksa Sekarang"}
+            </button>
+            <button
+              className={clsx(
+                "btn-error btn",
+                (diagnoseOptions.isLoading || isProcessing) && "btn-disabled"
+              )}
+              onClick={handleResetClick}
+            >
+              Hapus Pilihan
+            </button>
+          </div>
         </div>
+        <Image
+          src="/diagnose-illus.jpg"
+          width={450}
+          height={450}
+          alt="diagnose illustration"
+          className="hidden lg:block"
+        />
       </div>
     </div>
   );
@@ -216,6 +226,9 @@ const ResultModal = ({
         id="my-modal-5"
         className="modal-toggle"
         checked={openResultModal}
+        onChange={() => {
+          return;
+        }}
       />
       <div className="modal">
         <div className="modal-box w-11/12 max-w-5xl">

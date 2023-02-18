@@ -52,7 +52,7 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
         className="drawer-toggle"
         ref={toggleRef}
       />
-      <div className="drawer-content flex flex-col bg-gray-50 lg:relative lg:!z-20">
+      <div className="drawer-content flex flex-col lg:relative lg:!z-20">
         <Navbar drawerId={drawerId} />
         <div>{content}</div>
       </div>
