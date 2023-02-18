@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ReactNode } from "react";
 import { useRef } from "react";
+import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 const Sidebar = ({ content }: { content: ReactNode }) => {
@@ -55,6 +56,7 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
       <div className="drawer-content flex flex-col bg-gray-50 lg:relative lg:!z-20">
         <Navbar drawerId={drawerId} />
         <div>{content}</div>
+        <Footer />
       </div>
       <div className="drawer-side shadow lg:relative lg:!z-10">
         <label htmlFor={drawerId} className="drawer-overlay"></label>

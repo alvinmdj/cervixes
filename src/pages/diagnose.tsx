@@ -67,7 +67,7 @@ const Diagnose = () => {
   };
 
   return (
-    <div>
+    <div className="py-4">
       <ResultModal
         result={result}
         openResultModal={openResultModal}

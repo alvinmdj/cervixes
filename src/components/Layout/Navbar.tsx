@@ -49,8 +49,12 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
           <div className="h-8 w-[75px] animate-pulse rounded-md bg-gray-200" />
         )}
         {status === "unauthenticated" && (
-          <button className="btn-sm btn" onClick={handleSignIn}>
-            Sign in
+          <button
+            className="btn-ghost btn-sm btn gap-2 border-slate-400"
+            onClick={handleSignIn}
+          >
+            <Image src="/google.svg" alt="Google" width={20} height={20} />
+            <span>Sign in</span>
           </button>
         )}
         {status === "authenticated" && (
