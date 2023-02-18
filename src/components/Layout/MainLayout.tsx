@@ -1,6 +1,5 @@
 import { useSession } from "next-auth/react";
 import type { ReactNode } from "react";
-import Footer from "./Footer";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
@@ -13,7 +12,6 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       <>
         <Navbar />
         {children}
-        <Footer />
       </>
     );
   }
