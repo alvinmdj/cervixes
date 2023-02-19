@@ -19,7 +19,7 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
   };
 
   return (
-    <div className="navbar bg-base-100 shadow">
+    <div className="navbar shadow">
       {drawerId && (
         <div className="flex-none lg:hidden">
           <label htmlFor={drawerId} className="btn-ghost btn-square btn">

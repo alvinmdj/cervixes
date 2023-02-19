@@ -2,17 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* width */
-::-webkit-scrollbar {
-  width: 6px;
-}
+@media only screen and (min-width: 768px) {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 
-/* Track */
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-gray-500 transition hover:bg-gray-600;
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-300 transition hover:bg-gray-400;
+  }
 }

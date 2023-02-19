@@ -16,13 +16,14 @@ export default Home;
 
 const Hero = () => {
   return (
-    <div className="hero min-h-[calc(100vh-7rem)]">
-      <div className="hero-content flex-col text-center lg:flex-row-reverse lg:text-left">
+    <div className="hero min-h-[calc(100vh-4rem)] bg-gradient-to-r from-indigo-300 to-blue-200">
+      <div className="hero-content w-full flex-col justify-around text-center lg:flex-row-reverse lg:text-left">
         <Image
           src="/hero-illus.jpg"
-          width={450}
-          height={450}
+          width={500}
+          height={500}
           alt="hero illustration"
+          className="rounded-3xl shadow-xl"
         />
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Cervixes</h1>
