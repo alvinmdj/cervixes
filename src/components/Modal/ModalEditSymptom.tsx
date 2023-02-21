@@ -171,6 +171,8 @@ const ModalEditSymptom = ({ modalId, symptom, diseasesOption }: Props) => {
                       onChange(val.map((c) => c.value));
                     }}
                     isMulti
+                    menuPlacement="top"
+                    maxMenuHeight={200}
                     options={diseasesOption}
                     className="basic-multi-select"
                     classNamePrefix="select"

@@ -11,7 +11,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
     return (
       <>
         <Navbar />
-        {children}
+        <div className="bg-green-100">{children}</div>
       </>
     );
   }

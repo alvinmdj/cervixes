@@ -54,7 +54,7 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
       />
       <div className="drawer-content flex flex-col lg:relative lg:!z-20">
         <Navbar drawerId={drawerId} />
-        <div>{content}</div>
+        <div className="grow bg-green-100">{content}</div>
       </div>
       <div className="drawer-side shadow lg:relative lg:!z-10">
         <label htmlFor={drawerId} className="drawer-overlay"></label>

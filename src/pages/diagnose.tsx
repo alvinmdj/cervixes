@@ -100,7 +100,7 @@ const Diagnose = () => {
                 uniqueSymptoms &&
                 uniqueSymptoms.map((symptom) => (
                   <div key={symptom.id} className="flex items-center gap-3">
-                    <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
+                    <label className="label mb-3 cursor-pointer rounded-lg bg-green-50 px-2 shadow-md transition hover:bg-teal-100">
                       <input
                         type="checkbox"
                         className="checkbox-accent checkbox checkbox-lg"
@@ -152,7 +152,7 @@ const Diagnose = () => {
                 uniqueFactors &&
                 uniqueFactors.map((factor) => (
                   <div key={factor.id} className="flex items-center gap-3">
-                    <label className="label mb-3 cursor-pointer rounded-lg bg-white px-2 shadow-md transition hover:bg-base-200">
+                    <label className="label mb-3 cursor-pointer rounded-lg bg-green-50 px-2 shadow-md transition hover:bg-teal-100">
                       <input
                         type="checkbox"
                         className="checkbox-accent checkbox checkbox-lg"
@@ -213,9 +213,9 @@ const Diagnose = () => {
             </div>
           </div>
           <Image
-            src="/diagnose-illus.jpg"
-            width={500}
-            height={500}
+            src="/diagnose-illus.png"
+            width={450}
+            height={450}
             alt="diagnose illustration"
             className="hidden self-start lg:block"
           />

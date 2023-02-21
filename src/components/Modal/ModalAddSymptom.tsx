@@ -154,6 +154,8 @@ const ModalAddSymptom = ({ modalId, diseasesOption }: Props) => {
                     }}
                     value={selectedDiseases}
                     isMulti
+                    menuPlacement="top"
+                    maxMenuHeight={200}
                     options={diseasesOption}
                     className="basic-multi-select"
                     classNamePrefix="select"
