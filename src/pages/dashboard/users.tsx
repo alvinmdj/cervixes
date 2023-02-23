@@ -10,10 +10,10 @@ const Factors = () => {
 
   const promote = api.users.promote.useMutation({
     onError: () => {
-      toast.error("An error occured, try again later...");
+      toast.error("Terjadi kesalahan pada server, coba lagi nanti...");
     },
     onSuccess: () => {
-      toast.success("Success promote a user!");
+      toast.success("Berhasil mempromosikan pengguna!");
 
       // invalidate user list cache
       void utils.users.list.invalidate();
@@ -22,10 +22,10 @@ const Factors = () => {
 
   const demote = api.users.demote.useMutation({
     onError: () => {
-      toast.error("An error occured, try again later...");
+      toast.error("Terjadi kesalahan pada server, coba lagi nanti...");
     },
     onSuccess: () => {
-      toast.success("Success demote a user!");
+      toast.success("Berhasil menurunkan pengguna!");
 
       // invalidate user list cache
       void utils.users.list.invalidate();
@@ -34,7 +34,7 @@ const Factors = () => {
 
   return (
     <OwnerCheck>
-      <h1 className="mb-2 text-xl font-bold">Manage Users</h1>
+      <h1 className="mb-2 text-xl font-bold">Kelola Pengguna</h1>
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
