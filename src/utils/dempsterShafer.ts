@@ -2,7 +2,15 @@ import type { OptionType } from "pages/diagnose";
 
 export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
   if (selectedOptions.length === 1) {
-    return selectedOptions;
+    return [
+      selectedOptions[0] as OptionType,
+      {
+        id: selectedOptions[0]?.id as string,
+        name: selectedOptions[0]?.name as string,
+        diseases: [] as [],
+        weight: 1 - Number(selectedOptions[0]?.weight),
+      },
+    ];
   }
 
   // Conflict indicator
@@ -85,7 +93,7 @@ export const dempsterShafer = (selectedOptions: OptionType[]): OptionType[] => {
 
     console.log("mult =>", multiplyResult);
 
-    // merge weight value for mass func with same diseases
+    // merge (add) weight value for mass func with same diseases
     multiplyResult.forEach((element) => {
       const diseasesString = JSON.stringify(element.diseases.sort());
       const existingElement = nextMassFunc.find(

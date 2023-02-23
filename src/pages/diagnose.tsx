@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import AlertDisclaimer from "components/Alert/AlertDisclaimer";
 import Metatags from "components/Metatags";
+import ModalDiagnoseResult from "components/Modal/ModalDiagnoseResult";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -73,7 +74,7 @@ const Diagnose = () => {
     <>
       <Metatags />
       <div className="py-12 pt-4">
-        <ResultModal
+        <ModalDiagnoseResult
           result={result}
           openResultModal={openResultModal}
           handleCloseResultModal={handleCloseResultModal}
@@ -226,48 +227,6 @@ const Diagnose = () => {
 };
 
 export default Diagnose;
-
-const ResultModal = ({
-  result,
-  openResultModal,
-  handleCloseResultModal,
-}: {
-  result: OptionType[];
-  openResultModal: boolean;
-  handleCloseResultModal: () => void;
-}) => {
-  return (
-    <>
-      <input
-        type="checkbox"
-        id="my-modal-5"
-        className="modal-toggle"
-        checked={openResultModal}
-        onChange={() => {
-          return;
-        }}
-      />
-      <div className="modal">
-        <div className="modal-box w-11/12 max-w-5xl">
-          <h3 className="mb-3 text-center text-lg font-bold">
-            Hasil Diagnosis
-          </h3>
-          {/* Result */}
-          {/* What to do next */}
-          {/* Prevention, etc. */}
-          {result.length !== 0 && (
-            <p className="py-4">{JSON.stringify(result)}</p>
-          )}
-          <div className="modal-action">
-            <button onClick={handleCloseResultModal} className="btn">
-              Kembali
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
 
 const OptionSkeleton = () => (
   <>
