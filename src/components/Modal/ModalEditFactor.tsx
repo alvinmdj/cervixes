@@ -12,9 +12,15 @@ import { z } from "zod";
 // validation schema is also used by server
 export const editFactorSchema = z.object({
   id: z.string().min(1),
-  name: z.string().min(1, { message: "Name field is required" }),
-  weight: z.number().min(1).max(10),
-  diseases: z.string().array().min(1, "Must select at least 1 disease(s)"),
+  name: z.string().min(1, { message: "Nama faktor harus diisi" }),
+  weight: z
+    .number()
+    .min(1, { message: "Bobot harus berada dalam rentang 1 - 10" })
+    .max(10),
+  diseases: z
+    .string()
+    .array()
+    .min(1, "Harus memilih setidaknya 1 penyakit terkait"),
 });
 
 type EditFactorSchema = z.infer<typeof editFactorSchema>;
@@ -48,7 +54,7 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
 
   const { mutate } = api.factors.update.useMutation({
     onSuccess: () => {
-      toast.success("Update success!");
+      toast.success("Berhasil memperbarui faktor!");
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
@@ -58,7 +64,7 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
     },
     onError: (error) => {
       if (error.data && error.data?.httpStatus >= 500) {
-        toast.error("Internal server error");
+        toast.error("Terjadi kesalahan pada server");
       } else {
         toast.error(error.message);
       }
@@ -98,16 +104,16 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
       />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-center text-lg font-bold">Edit factor</h3>
+          <h3 className="text-center text-lg font-bold">Ubah faktor</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" {...register("id")} />
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span className="label-text">Nama faktor</span>
               </label>
               <input
                 type="text"
-                placeholder="Factor name"
+                placeholder="Nama faktor"
                 className={clsx(
                   "input-bordered input w-full",
                   errors.name && "input-error"
@@ -122,7 +128,7 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
             </div>
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Weight</span>
+                <span className="label-text">Bobot faktor</span>
                 <span>{weightValue}</span>
               </label>
               <input
@@ -156,7 +162,7 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
             </div>
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Diseases</span>
+                <span className="label-text">Penyakit terkait</span>
               </label>
               <Controller
                 control={control}
@@ -165,6 +171,7 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
                   <Select
                     ref={ref}
                     name={name}
+                    placeholder="Pilih penyakit terkait..."
                     value={defaultDiseases}
                     onChange={(val) => {
                       setDefaultDiseases(val.map((c) => c));
@@ -187,10 +194,10 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
             </div>
             <div className="modal-action">
               <label htmlFor={modalId} className="btn-ghost btn bg-base-200">
-                Cancel
+                Batalkan
               </label>
               <button type="submit" className="btn">
-                Save
+                Simpan
               </button>
             </div>
           </form>

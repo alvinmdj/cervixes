@@ -24,10 +24,10 @@ const Diseases = () => {
 
   const { mutate } = api.diseases.delete.useMutation({
     onError: () => {
-      toast.error("An error occured, try again later...");
+      toast.error("Terjadi kesalahan pada server, coba lagi nanti...");
     },
     onSuccess: () => {
-      toast.success("Deleted!");
+      toast.success("Berhasil dihapus!");
 
       // invalidate disease list cache
       void utils.diseases.list.invalidate();
@@ -37,7 +37,7 @@ const Diseases = () => {
   return (
     <AdminCheck>
       <label htmlFor={addModalId} className="btn mb-2">
-        Add Disease
+        Tambahkan Penyakit
       </label>
       <ModalAddDisease modalId={addModalId} />
       <ModalEditDisease modalId={editModalId} disease={selectedDisease} />
@@ -76,9 +76,9 @@ const DiseaseList = ({
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Symptoms</th>
-            <th>Factors</th>
+            <th>Nama</th>
+            <th>Gejala</th>
+            <th>Faktor</th>
             <th></th>
           </tr>
         </thead>
@@ -86,14 +86,14 @@ const DiseaseList = ({
           {isLoading && (
             <tr>
               <td colSpan={5} className="text-center">
-                Loading data...
+                Memuat data...
               </td>
             </tr>
           )}
           {data?.length === 0 && (
             <tr>
               <td colSpan={6} className="text-center">
-                No entries found...
+                Belum ada data...
               </td>
             </tr>
           )}
@@ -111,7 +111,7 @@ const DiseaseList = ({
                         </div>
                       ))
                     ) : (
-                      <span>No associated symptoms.</span>
+                      <span>Belum ada gejala terkait.</span>
                     )}
                   </div>
                 </td>
@@ -124,7 +124,7 @@ const DiseaseList = ({
                         </div>
                       ))
                     ) : (
-                      <span>No associated factors.</span>
+                      <span>Belum ada faktor terkait.</span>
                     )}
                   </div>
                 </td>
@@ -135,14 +135,14 @@ const DiseaseList = ({
                       className="btn-info btn-sm btn flex-1"
                       onClick={() => onClickAction(disease)}
                     >
-                      Edit
+                      Ubah
                     </label>
                     <label
                       htmlFor={deleteConfirmationModalId}
                       className="btn-error btn-sm btn flex-1"
                       onClick={() => onClickAction(disease)}
                     >
-                      Remove
+                      Hapus
                     </label>
                   </div>
                 </td>

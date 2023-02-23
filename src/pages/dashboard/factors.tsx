@@ -33,10 +33,10 @@ const Factors = () => {
 
   const { mutate } = api.factors.delete.useMutation({
     onError: () => {
-      toast.error("An error occured, try again later...");
+      toast.error("Terjadi kesalahan pada server, coba lagi nanti...");
     },
     onSuccess: () => {
-      toast.success("Deleted!");
+      toast.success("Berhasil dihapus!");
 
       // invalidate symptom list cache
       void utils.factors.list.invalidate();
@@ -48,7 +48,9 @@ const Factors = () => {
   useEffect(() => {
     if (diseasesData) {
       if (diseasesData.length === 0) {
-        toast.error("Please add disease(s) before adding symptom(s)");
+        toast.error(
+          "Mohon untuk menambahkan data penyakit sebelum menambahkan data faktor!"
+        );
         return;
       }
       setDiseasesOption(
@@ -63,7 +65,7 @@ const Factors = () => {
   return (
     <AdminCheck>
       <label htmlFor={addModalId} className="btn mb-2">
-        Add Factor
+        Tambahkan Faktor
       </label>
       <ModalAddFactor modalId={addModalId} diseasesOption={diseasesOption} />
       <ModalEditFactor
@@ -73,7 +75,7 @@ const Factors = () => {
       />
       <ModalDeleteConfirmation
         modalId={deleteConfirmationModalId}
-        title="Confirm Delete Factor"
+        title="Konfirmasi Hapus Faktor"
         onClick={() => {
           if (selectedFactor) mutate({ factorId: selectedFactor.id });
         }}
@@ -106,9 +108,9 @@ const FactorList = ({
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Weight</th>
-            <th>Diseases</th>
+            <th>Nama</th>
+            <th>Bobot</th>
+            <th>Penyakit</th>
             <th></th>
           </tr>
         </thead>
@@ -116,14 +118,14 @@ const FactorList = ({
           {isLoading && (
             <tr>
               <td colSpan={5} className="text-center">
-                Loading data...
+                Memuat data...
               </td>
             </tr>
           )}
           {data?.length === 0 && (
             <tr>
               <td colSpan={6} className="text-center">
-                No entries found...
+                Belum ada data...
               </td>
             </tr>
           )}
@@ -142,7 +144,7 @@ const FactorList = ({
                         </div>
                       ))
                     ) : (
-                      <span>No associated diseases.</span>
+                      <span>Belum ada penyakit terkait.</span>
                     )}
                   </div>
                 </td>
@@ -153,14 +155,14 @@ const FactorList = ({
                       className="btn-info btn-sm btn flex-1"
                       onClick={() => onClickAction(factor)}
                     >
-                      Edit
+                      Ubah
                     </label>
                     <label
                       htmlFor={deleteConfirmationModalId}
                       className="btn-error btn-sm btn flex-1"
                       onClick={() => onClickAction(factor)}
                     >
-                      Remove
+                      Hapus
                     </label>
                   </div>
                 </td>

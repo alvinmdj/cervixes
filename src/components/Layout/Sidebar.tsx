@@ -17,22 +17,22 @@ const Sidebar = ({ content }: { content: ReactNode }) => {
 
   const menus = [
     {
-      name: "Manage Diseases",
+      name: "Kelola Penyakit",
       to: "/dashboard/diseases",
       show: session?.user.role !== "USER",
     },
     {
-      name: "Manage Symptoms",
+      name: "Kelola Gejala",
       to: "/dashboard/symptoms",
       show: session?.user.role !== "USER",
     },
     {
-      name: "Manage Factors",
+      name: "Kelola Faktor",
       to: "/dashboard/factors",
       show: session?.user.role !== "USER",
     },
     {
-      name: "Manage Users",
+      name: "Kelola Pengguna",
       to: "/dashboard/users",
       show: session?.user.role === "OWNER",
     },

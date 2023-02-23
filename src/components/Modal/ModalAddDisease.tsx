@@ -8,7 +8,7 @@ import { z } from "zod";
 
 // validation schema is also used by server
 export const addDiseaseSchema = z.object({
-  name: z.string().min(1, { message: "Name field is required" }),
+  name: z.string().min(1, { message: "Nama penyakit harus diisi" }),
 });
 
 type AddDiseaseSchema = z.infer<typeof addDiseaseSchema>;
@@ -30,7 +30,7 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
 
   const { mutate } = api.diseases.create.useMutation({
     onSuccess: () => {
-      toast.success("Create success!");
+      toast.success("Berhasil menambahkan penyakit!");
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
@@ -58,15 +58,15 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
       />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-center text-lg font-bold">Add new disease</h3>
+          <h3 className="text-center text-lg font-bold">Tambah penyakit</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span className="label-text">Nama penyakit</span>
               </label>
               <input
                 type="text"
-                placeholder="Disease name"
+                placeholder="Nama penyakit"
                 className={clsx(
                   "input-bordered input w-full",
                   errors.name && "input-error"
@@ -85,10 +85,10 @@ const ModalAddDisease = ({ modalId }: { modalId: string }) => {
                 htmlFor={modalId}
                 className="btn-ghost btn bg-base-200"
               >
-                Cancel
+                Batalkan
               </label>
               <button type="submit" className="btn">
-                Save
+                Simpan
               </button>
             </div>
           </form>

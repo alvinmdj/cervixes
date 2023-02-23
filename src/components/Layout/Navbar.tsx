@@ -40,8 +40,8 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
         </div>
       )}
       <div className="flex-1">
-        <Link href="/" className="btn-ghost btn text-xl normal-case">
-          Cervixes
+        <Link href="/" className="btn-ghost btn text-xl font-extrabold">
+          CERVIXES
         </Link>
       </div>
       <div className="flex-none gap-2">
@@ -75,7 +75,7 @@ const Navbar = ({ drawerId }: { drawerId?: string }) => {
             >
               <div className="card-body">
                 <h3 className="text-center font-bold">
-                  Welcome back, {session.user.name?.split(" ")[0]}!
+                  Selamat datang, {session.user.name?.split(" ")[0]}!
                 </h3>
                 <div className="flex flex-col gap-2">
                   <span

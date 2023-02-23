@@ -10,7 +10,7 @@ import { z } from "zod";
 // validation schema is also used by server
 export const editDiseaseSchema = z.object({
   id: z.string().min(1),
-  name: z.string().min(1, { message: "Name field is required" }),
+  name: z.string().min(1, { message: "Nama penyakit harus diisi" }),
 });
 
 type EditDiseaseSchema = z.infer<typeof editDiseaseSchema>;
@@ -37,7 +37,7 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
 
   const { mutate } = api.diseases.update.useMutation({
     onSuccess: () => {
-      toast.success("Update success!");
+      toast.success("Berhasil memperbarui penyakit!");
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
@@ -47,7 +47,7 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
     },
     onError: (error) => {
       if (error.data && error.data?.httpStatus >= 500) {
-        toast.error("Internal server error");
+        toast.error("Terjadi kesalahan pada server");
       } else {
         toast.error(error.message);
       }
@@ -75,16 +75,16 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
       />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-center text-lg font-bold">Edit disease</h3>
+          <h3 className="text-center text-lg font-bold">Ubah penyakit</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" {...register("id")} />
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span className="label-text">Nama penyakit</span>
               </label>
               <input
                 type="text"
-                placeholder="Disease name"
+                placeholder="Nama penyakit"
                 className={clsx(
                   "input-bordered input w-full",
                   errors.name && "input-error"
@@ -99,10 +99,10 @@ const ModalEditDisease = ({ modalId, disease }: Props) => {
             </div>
             <div className="modal-action">
               <label htmlFor={modalId} className="btn-ghost btn bg-base-200">
-                Cancel
+                Batalkan
               </label>
               <button type="submit" className="btn">
-                Save
+                Simpan
               </button>
             </div>
           </form>

@@ -26,13 +26,13 @@ const Hero = () => {
           className="rounded-3xl"
         />
         <div className="max-w-md">
-          <h1 className="text-5xl font-bold">Cervixes</h1>
+          <h1 className="text-4xl font-extrabold">CERVIXES</h1>
           <p className="py-6">
-            Take Control of Your Health with <strong>Cervixes</strong> - The
-            User-Friendly Expert System for Cervical Cancer Detection.
+            Sistem Pakar untuk Diagnosis Penyakit Kanker Serviks Menggunakan
+            Metode Dempster-Shafer
           </p>
           <Link href="/diagnose" className="btn-primary btn">
-            Get Started
+            Coba Sekarang
           </Link>
         </div>
       </div>

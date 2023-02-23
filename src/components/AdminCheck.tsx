@@ -19,22 +19,22 @@ const AdminCheck = ({ children }: { children: ReactNode }) => {
 
   if (status === "loading") {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-2">
-        <p className="text-center text-5xl font-bold">Loading...</p>
+      <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-2">
+        <p className="text-center text-5xl font-bold">Memuat...</p>
       </div>
     );
   }
 
   if (status === "unauthenticated" || session?.user.role === "USER") {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-2 text-center">
-        <p className="text-5xl font-bold">Access denied</p>
+      <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-2 text-center">
+        <p className="text-5xl font-bold">Tidak dapat mengakses halaman ini</p>
         <p>
-          Redirecting to{" "}
+          Mengalihkan ke{" "}
           <Link href="/" className="link">
-            homepage
+            halaman utama
           </Link>{" "}
-          in 3 seconds...
+          dalam 3 detik...
         </p>
       </div>
     );

@@ -60,7 +60,7 @@ export const factorRouter = createTRPCRouter({
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
-            throw (error.message = "This name is already exists");
+            throw (error.message = "Nama sudah digunakan");
           }
         }
         throw error;
@@ -149,7 +149,7 @@ export const factorRouter = createTRPCRouter({
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
-            throw (error.message = "This name is already exists");
+            throw (error.message = "Nama sudah digunakan");
           }
         }
         throw error;

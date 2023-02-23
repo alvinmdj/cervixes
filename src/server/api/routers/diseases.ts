@@ -19,7 +19,7 @@ export const diseaseRouter = createTRPCRouter({
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
-            throw (error.message = "This name is already exists");
+            throw (error.message = "Nama penyakit sudah ada");
           }
         }
         throw error;
@@ -50,7 +50,7 @@ export const diseaseRouter = createTRPCRouter({
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
-            throw (error.message = "This name is already exists");
+            throw (error.message = "Nama penyakit sudah ada");
           }
         }
         throw error;

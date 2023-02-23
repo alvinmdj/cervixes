@@ -32,14 +32,14 @@ const ModalDeleteConfirmation = ({ modalId, title, onClick }: Props) => {
               htmlFor={modalId}
               className="btn-ghost btn flex-1 bg-base-200"
             >
-              Cancel
+              Batalkan
             </label>
             <button
               type="submit"
               className="btn-error btn flex-1"
               onClick={handleClick}
             >
-              Delete
+              Ya, hapus
             </button>
           </div>
         </label>

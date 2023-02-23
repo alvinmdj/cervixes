@@ -40,24 +40,24 @@ const Factors = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Role</th>
-              <th>Manage</th>
+              <th>Posisi</th>
+              <th>Kelola</th>
             </tr>
           </thead>
           <tbody>
             {isLoading && (
               <tr>
                 <td colSpan={5} className="text-center">
-                  Loading data...
+                  Memuat data...
                 </td>
               </tr>
             )}
             {data?.length === 0 && (
               <tr>
                 <td colSpan={6} className="text-center">
-                  No entries found...
+                  Belum ada data...
                 </td>
               </tr>
             )}
@@ -84,7 +84,7 @@ const Factors = () => {
                         className="btn-success btn"
                         onClick={() => promote.mutate({ userId: user.id })}
                       >
-                        Promote to Admin
+                        Tingkatkan menjadi Admin
                       </button>
                     )}
                     {user.role === "ADMIN" && (
@@ -92,10 +92,10 @@ const Factors = () => {
                         className="btn-error btn"
                         onClick={() => demote.mutate({ userId: user.id })}
                       >
-                        Demote to User
+                        Turunkan menjadi User
                       </button>
                     )}
-                    {user.role === "OWNER" && <p>No action.</p>}
+                    {user.role === "OWNER" && <p>Tidak tersedia.</p>}
                   </td>
                 </tr>
               ))}

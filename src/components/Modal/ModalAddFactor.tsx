@@ -10,9 +10,15 @@ import { z } from "zod";
 
 // validation schema is also used by server
 export const addFactorSchema = z.object({
-  name: z.string().min(1, { message: "Name field is required" }),
-  weight: z.number().min(1).max(10),
-  diseases: z.string().array().min(1, "Must select at least 1 disease(s)"),
+  name: z.string().min(1, { message: "Nama faktor harus diisi" }),
+  weight: z
+    .number()
+    .min(1, { message: "Bobot harus berada dalam rentang 1 - 10" })
+    .max(10),
+  diseases: z
+    .string()
+    .array()
+    .min(1, "Harus memilih setidaknya 1 penyakit terkait"),
 });
 
 type AddFactorSchema = z.infer<typeof addFactorSchema>;
@@ -54,7 +60,7 @@ const ModalAddFactor = ({ modalId, diseasesOption }: Props) => {
 
   const { mutate } = api.factors.create.useMutation({
     onSuccess: () => {
-      toast.success("Create success!");
+      toast.success("Berhasil menambahkan faktor!");
 
       // close modal
       if (toggleRef.current) toggleRef.current.checked = false;
@@ -82,15 +88,15 @@ const ModalAddFactor = ({ modalId, diseasesOption }: Props) => {
       />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-center text-lg font-bold">Add new factor</h3>
+          <h3 className="text-center text-lg font-bold">Tambah faktor</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span className="label-text">Nama faktor</span>
               </label>
               <input
                 type="text"
-                placeholder="Factor name"
+                placeholder="Nama faktor"
                 className={clsx(
                   "input-bordered input w-full",
                   errors.name && "input-error"
@@ -105,7 +111,7 @@ const ModalAddFactor = ({ modalId, diseasesOption }: Props) => {
             </div>
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Weight</span>
+                <span className="label-text">Bobot faktor</span>
                 <span>{weightValue}</span>
               </label>
               <input
@@ -139,7 +145,7 @@ const ModalAddFactor = ({ modalId, diseasesOption }: Props) => {
             </div>
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Diseases</span>
+                <span className="label-text">Penyakit terkait</span>
               </label>
               <Controller
                 control={control}
@@ -148,6 +154,7 @@ const ModalAddFactor = ({ modalId, diseasesOption }: Props) => {
                   <Select
                     ref={ref}
                     name={name}
+                    placeholder="Pilih penyakit terkait..."
                     onChange={(val) => {
                       setSelectedDiseases(val.map((c) => c));
                       onChange(val.map((c) => c.value));
@@ -174,10 +181,10 @@ const ModalAddFactor = ({ modalId, diseasesOption }: Props) => {
                 htmlFor={modalId}
                 className="btn-ghost btn bg-base-200"
               >
-                Cancel
+                Batalkan
               </label>
               <button type="submit" className="btn">
-                Save
+                Simpan
               </button>
             </div>
           </form>
