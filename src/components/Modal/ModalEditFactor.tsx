@@ -15,7 +15,7 @@ export const editFactorSchema = z.object({
   name: z.string().min(1, { message: "Nama faktor harus diisi" }),
   weight: z
     .number()
-    .min(1, { message: "Bobot harus berada dalam rentang 1 - 10" })
+    .min(0.25, { message: "Bobot harus lebih besar dari 0" })
     .max(10),
   diseases: z
     .string()
@@ -136,24 +136,11 @@ const ModalEditFactor = ({ modalId, factor, diseasesOption }: Props) => {
                 min="0"
                 max="10"
                 className="range"
-                step="1"
+                step="0.25"
                 {...register("weight", {
                   valueAsNumber: true,
                 })}
               />
-              <div className="flex w-full justify-between px-2 text-xs">
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-              </div>
               {errors.weight?.message && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.weight?.message}

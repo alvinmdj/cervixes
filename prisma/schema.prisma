@@ -78,7 +78,7 @@ model Disease {
 model Symptom {
     id        String    @id @default(cuid())
     name      String
-    weight    Int
+    weight    Float
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     diseases  Disease[]
@@ -87,7 +87,7 @@ model Symptom {
 model Factor {
     id        String    @id @default(cuid())
     name      String
-    weight    Int
+    weight    Float
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     diseases  Disease[]
