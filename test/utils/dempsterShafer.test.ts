@@ -48,25 +48,25 @@ const input2 = [
 const expectedResult = [
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: ["P1", "P2"],
     weight: 0.14634146341463414,
   },
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: ["P3"],
     weight: 0.5121951219512194,
   },
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: ["P1", "P2", "P3"],
     weight: 0.27317073170731704,
   },
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: [],
     weight: 0.06829268292682925,
   },
@@ -76,25 +76,25 @@ const expectedResult = [
 const expectedResult2 = [
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: ["P3"],
     weight: 0.5121951219512194,
   },
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: ["P1", "P2"],
     weight: 0.14634146341463414,
   },
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: ["P1", "P2", "P3"],
     weight: 0.2731707317073171,
   },
   {
     id: "3",
-    name: "multiplyResult",
+    name: "calcResult",
     diseases: [],
     weight: 0.06829268292682925,
   },
