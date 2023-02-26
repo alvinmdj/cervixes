@@ -15,7 +15,7 @@ const ModalDiagnoseResult = ({
     diseases: [],
     weight: 0,
   };
-  let disease = "Tidak terdiagnosis kanker serviks";
+  let disease = "Tidak mengalami kanker serviks";
 
   if (result.length) {
     highest = result.reduce((prev, current) => {
@@ -23,7 +23,7 @@ const ModalDiagnoseResult = ({
     });
 
     if (highest.diseases.length) {
-      disease = highest.diseases.join(", ");
+      disease = "mengalami indikasi " + highest.diseases.join(" & ");
     }
   }
 
@@ -45,47 +45,53 @@ const ModalDiagnoseResult = ({
           </h3>
           <div className="mb-3">
             <p className="text-lg font-bold">Keterangan</p>
-            {result.length !== 0 && (
-              <>
-                <p>{JSON.stringify(result)}</p>
-                <p>Highest prob: {JSON.stringify(highest)}</p>
-                <p>Highest prob disease: {disease}</p>
-              </>
-            )}
-          </div>
-
-          <div className="mb-3">
-            {/* if symptoms still happening, try: consult with real doctor, do a screening test, etc. */}
-            <p className="text-lg font-bold">Hal yang dapat Anda lakukan</p>
             <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat
-              dignissimos illo molestias eligendi veritatis commodi amet maxime
-              in ipsam a? Cum perferendis dolorum ex magnam adipisci soluta,
-              corrupti odit laudantium et ullam amet, laboriosam blanditiis, qui
-              natus voluptas voluptatibus facilis facere nobis obcaecati
-              repellat exercitationem sunt rem? Fugit, molestiae aliquid.
+              Berdasarkan hasil diagnosis sistem pakar, Anda terdiagnosis{" "}
+              <strong className="lowercase">{disease}</strong> dengan
+              probabilitas sebesar{" "}
+              <strong>{(highest.weight * 100).toFixed(2)}%</strong>.
             </p>
           </div>
 
           <div className="mb-3">
-            {/* Vaccination, etc. */}
+            <p className="text-lg font-bold">Hal yang dapat Anda lakukan</p>
+            <p>
+              Untuk memperoleh hasil diagnosis yang lebih menyeluruh, Anda tetap
+              perlu melakukan pemeriksaan secara langsung ke pusat kesehatan di
+              wilayah Anda. Diagnosis kanker serviks yang lebih pasti dapat
+              dilakukan dengan beberapa metode seperti melakukan{" "}
+              <i>screening</i> menggunakan metode <i>papsmear</i>, inspeksi asam
+              asetat, ataupun melakukan pengujian DNA HPV. Untuk diagnosis lebih
+              lanjut, dapat dilakukan biopsi serviks.
+            </p>
+          </div>
+
+          <div className="mb-3">
             <p className="text-lg font-bold">
               Tindak pencegahan kanker serviks
             </p>
             <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint
-              cum, ipsum doloremque laudantium, non magnam eaque iste placeat
-              nisi, eum culpa necessitatibus vero quod nesciunt molestiae odio
-              voluptas fuga animi aliquid ducimus quidem autem reprehenderit
-              cumque. A aliquid exercitationem modi nulla ut eum laboriosam,
-              alias odit obcaecati reiciendis numquam similique. Distinctio est
-              similique necessitatibus repudiandae nesciunt voluptate fugit!
-              Nihil expedita laudantium impedit corporis natus, consequuntur
-              inventore. Beatae itaque voluptas odio dignissimos exercitationem
-              quidem quia maiores minus, suscipit eum, sint laudantium tempore
-              eos doloremque sed facilis soluta nobis! Blanditiis, illo vero?
-              Doloribus ullam ut sed temporibus, hic magni illo obcaecati
-              soluta!
+              Untuk mencegah terkena kanker serviks, pastikan untuk menghindari
+              faktor-faktor risiko yang tertera pada daftar pilihan faktor
+              risiko. Anda juga dapat melakukan vaksin HPV yang sangat
+              disarankan untuk mulai dilakukan sejak usia 9 tahun sebanyak 3
+              kali. Vaksinasi HPV dapat memperkecil kemungkinan Anda terkena
+              kanker serviks.
+            </p>
+          </div>
+
+          <div className="mb-3">
+            <p className="text-lg font-bold">
+              Tindak penanganan kanker serviks
+            </p>
+            <p>
+              Untuk penanganan kanker serviks, pastikan Anda melakukan
+              konsultasi langsung dengan dokter yang ahli di bidang kanker
+              serviks. Pada stadium awal, Anda dapat melakukan krioterapi
+              apabila kanker masih belum menyebar. Pastikan untuk tetap
+              melakukan pengecekan secara rutin meski sudah selesai krioterapi.
+              Pada stadium lanjut, hal yang dapat Anda lakukan adalah dengan
+              penyinaran radiasi untuk mematikan sel-sel kanker.
             </p>
           </div>
           <div className="modal-action">
