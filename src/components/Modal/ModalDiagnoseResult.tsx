@@ -48,7 +48,7 @@ const ModalDiagnoseResult = ({
             <p>
               Berdasarkan hasil diagnosis sistem pakar, Anda terdiagnosis{" "}
               <strong className="lowercase">{disease}</strong> dengan
-              probabilitas sebesar{" "}
+              nilai kepercayaan sebesar{" "}
               <strong>{(highest.weight * 100).toFixed(2)}%</strong>.
             </p>
           </div>
