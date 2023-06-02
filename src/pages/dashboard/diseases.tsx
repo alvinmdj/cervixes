@@ -1,4 +1,5 @@
 import AdminCheck from "components/AdminCheck";
+import Metatags from "components/Metatags";
 import ModalAddDisease from "components/Modal/ModalAddDisease";
 import ModalDeleteConfirmation from "components/Modal/ModalDeleteConfirmation";
 import ModalEditDisease from "components/Modal/ModalEditDisease";
@@ -35,25 +36,28 @@ const Diseases = () => {
   });
 
   return (
-    <AdminCheck>
-      <label htmlFor={addModalId} className="btn mb-2">
-        Tambahkan Penyakit
-      </label>
-      <ModalAddDisease modalId={addModalId} />
-      <ModalEditDisease modalId={editModalId} disease={selectedDisease} />
-      <ModalDeleteConfirmation
-        modalId={deleteConfirmationModalId}
-        title="Confirm Delete Disease"
-        onClick={() => {
-          if (selectedDisease) mutate({ diseaseId: selectedDisease.id });
-        }}
-      />
-      <DiseaseList
-        editModalId={editModalId}
-        deleteConfirmationModalId={deleteConfirmationModalId}
-        onClickAction={handleActionClick}
-      />
-    </AdminCheck>
+    <>
+      <Metatags title="Cervixes - Manage diseases data" />
+      <AdminCheck>
+        <label htmlFor={addModalId} className="btn mb-2">
+          Tambahkan Penyakit
+        </label>
+        <ModalAddDisease modalId={addModalId} />
+        <ModalEditDisease modalId={editModalId} disease={selectedDisease} />
+        <ModalDeleteConfirmation
+          modalId={deleteConfirmationModalId}
+          title="Konfirmasi Hapus Penyakit"
+          onClick={() => {
+            if (selectedDisease) mutate({ diseaseId: selectedDisease.id });
+          }}
+        />
+        <DiseaseList
+          editModalId={editModalId}
+          deleteConfirmationModalId={deleteConfirmationModalId}
+          onClickAction={handleActionClick}
+        />
+      </AdminCheck>
+    </>
   );
 };
 

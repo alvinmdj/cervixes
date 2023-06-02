@@ -72,7 +72,7 @@ const Diagnose = () => {
 
   return (
     <>
-      <Metatags />
+      <Metatags title="Cervixes - Try Diagnose Cervical Cancer with Cervixes" />
       <div className="py-12 pt-4">
         <ModalDiagnoseResult
           result={result}

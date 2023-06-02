@@ -1,4 +1,5 @@
 import AdminCheck from "components/AdminCheck";
+import Metatags from "components/Metatags";
 import ModalAddFactor from "components/Modal/ModalAddFactor";
 import ModalDeleteConfirmation from "components/Modal/ModalDeleteConfirmation";
 import ModalEditFactor from "components/Modal/ModalEditFactor";
@@ -63,29 +64,32 @@ const Factors = () => {
   }, [diseasesData]);
 
   return (
-    <AdminCheck>
-      <label htmlFor={addModalId} className="btn mb-2">
-        Tambahkan Faktor
-      </label>
-      <ModalAddFactor modalId={addModalId} diseasesOption={diseasesOption} />
-      <ModalEditFactor
-        modalId={editModalId}
-        factor={selectedFactor}
-        diseasesOption={diseasesOption}
-      />
-      <ModalDeleteConfirmation
-        modalId={deleteConfirmationModalId}
-        title="Konfirmasi Hapus Faktor"
-        onClick={() => {
-          if (selectedFactor) mutate({ factorId: selectedFactor.id });
-        }}
-      />
-      <FactorList
-        editModalId={editModalId}
-        deleteConfirmationModalId={deleteConfirmationModalId}
-        onClickAction={handleActionClick}
-      />
-    </AdminCheck>
+    <>
+      <Metatags title="Cervixes - Manage risk factors data" />
+      <AdminCheck>
+        <label htmlFor={addModalId} className="btn mb-2">
+          Tambahkan Faktor
+        </label>
+        <ModalAddFactor modalId={addModalId} diseasesOption={diseasesOption} />
+        <ModalEditFactor
+          modalId={editModalId}
+          factor={selectedFactor}
+          diseasesOption={diseasesOption}
+        />
+        <ModalDeleteConfirmation
+          modalId={deleteConfirmationModalId}
+          title="Konfirmasi Hapus Faktor"
+          onClick={() => {
+            if (selectedFactor) mutate({ factorId: selectedFactor.id });
+          }}
+        />
+        <FactorList
+          editModalId={editModalId}
+          deleteConfirmationModalId={deleteConfirmationModalId}
+          onClickAction={handleActionClick}
+        />
+      </AdminCheck>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import AdminCheck from "components/AdminCheck";
+import Metatags from "components/Metatags";
 import ModalAddSymptom from "components/Modal/ModalAddSymptom";
 import ModalDeleteConfirmation from "components/Modal/ModalDeleteConfirmation";
 import ModalEditSymptom from "components/Modal/ModalEditSymptom";
@@ -63,29 +64,32 @@ const Symptoms = () => {
   }, [diseasesData]);
 
   return (
-    <AdminCheck>
-      <label htmlFor={addModalId} className="btn mb-2">
-        Tambahkan Gejala
-      </label>
-      <ModalAddSymptom modalId={addModalId} diseasesOption={diseasesOption} />
-      <ModalEditSymptom
-        modalId={editModalId}
-        symptom={selectedSymptom}
-        diseasesOption={diseasesOption}
-      />
-      <ModalDeleteConfirmation
-        modalId={deleteConfirmationModalId}
-        title="Konfirmasi Hapus Gejala"
-        onClick={() => {
-          if (selectedSymptom) mutate({ symptomId: selectedSymptom.id });
-        }}
-      />
-      <SymptomList
-        editModalId={editModalId}
-        deleteConfirmationModalId={deleteConfirmationModalId}
-        onClickAction={handleActionClick}
-      />
-    </AdminCheck>
+    <>
+      <Metatags title="Cervixes - Manage symptoms data" />
+      <AdminCheck>
+        <label htmlFor={addModalId} className="btn mb-2">
+          Tambahkan Gejala
+        </label>
+        <ModalAddSymptom modalId={addModalId} diseasesOption={diseasesOption} />
+        <ModalEditSymptom
+          modalId={editModalId}
+          symptom={selectedSymptom}
+          diseasesOption={diseasesOption}
+        />
+        <ModalDeleteConfirmation
+          modalId={deleteConfirmationModalId}
+          title="Konfirmasi Hapus Gejala"
+          onClick={() => {
+            if (selectedSymptom) mutate({ symptomId: selectedSymptom.id });
+          }}
+        />
+        <SymptomList
+          editModalId={editModalId}
+          deleteConfirmationModalId={deleteConfirmationModalId}
+          onClickAction={handleActionClick}
+        />
+      </AdminCheck>
+    </>
   );
 };
 

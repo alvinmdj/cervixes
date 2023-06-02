@@ -7,9 +7,9 @@ type MetatagsProps = {
 };
 
 const Metatags = ({ title, description, image }: MetatagsProps) => {
-  const baseTitle = "Cervical Cancer Diagnosis Expert System";
+  const baseTitle = "Cervixes - Cervical Cancer Diagnosis Expert System";
   const baseDescription =
-    "Cervical cancer diagnosis expert system using Dempster-Shafer methodology";
+    "Cervixes is a cervical cancer diagnosis expert system using Dempster-Shafer methodology";
   return (
     <Head>
       <title>{title || baseTitle}</title>
