@@ -1,6 +1,6 @@
 # Cervixes
 
-Cervical cancer diagnosis expert system with Dempster-Shafer methodology.
+Cervical cancer diagnosis expert system with Dempster-Shafer method.
 
 ## Tech Stacks
 
