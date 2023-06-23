@@ -3,10 +3,10 @@ import { TRPCError } from "@trpc/server";
 import { addFactorSchema } from "components/Modal/ModalAddFactor";
 import { editFactorSchema } from "components/Modal/ModalEditFactor";
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { adminProcedure, createTRPCRouter } from "../trpc";
 
 export const factorRouter = createTRPCRouter({
-  create: protectedProcedure
+  create: adminProcedure
     .input(addFactorSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -66,7 +66,7 @@ export const factorRouter = createTRPCRouter({
         throw error;
       }
     }),
-  list: protectedProcedure.query(({ ctx }) => {
+  list: adminProcedure.query(({ ctx }) => {
     const factors = ctx.prisma.factor.findMany({
       include: {
         diseases: true,
@@ -75,7 +75,7 @@ export const factorRouter = createTRPCRouter({
 
     return factors;
   }),
-  update: protectedProcedure
+  update: adminProcedure
     .input(editFactorSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -155,7 +155,7 @@ export const factorRouter = createTRPCRouter({
         throw error;
       }
     }),
-  delete: protectedProcedure
+  delete: adminProcedure
     .input(
       z.object({
         factorId: z.string(),

@@ -2,10 +2,10 @@ import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { addDiseaseSchema } from "../../../components/Modal/ModalAddDisease";
 import { editDiseaseSchema } from "../../../components/Modal/ModalEditDisease";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { adminProcedure, createTRPCRouter } from "../trpc";
 
 export const diseaseRouter = createTRPCRouter({
-  create: protectedProcedure
+  create: adminProcedure
     .input(addDiseaseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -25,7 +25,7 @@ export const diseaseRouter = createTRPCRouter({
         throw error;
       }
     }),
-  list: protectedProcedure.query(({ ctx }) => {
+  list: adminProcedure.query(({ ctx }) => {
     const diseases = ctx.prisma.disease.findMany({
       include: {
         factors: true,
@@ -35,7 +35,7 @@ export const diseaseRouter = createTRPCRouter({
 
     return diseases;
   }),
-  update: protectedProcedure
+  update: adminProcedure
     .input(editDiseaseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -56,7 +56,7 @@ export const diseaseRouter = createTRPCRouter({
         throw error;
       }
     }),
-  delete: protectedProcedure
+  delete: adminProcedure
     .input(
       z.object({
         diseaseId: z.string(),

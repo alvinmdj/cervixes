@@ -1,23 +1,19 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, ownerProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
-  list: protectedProcedure.query(({ ctx }) => {
-    if (ctx.session.user.role !== "OWNER") return;
-
+  list: ownerProcedure.query(({ ctx }) => {
     const users = ctx.prisma.user.findMany();
 
     return users;
   }),
-  promote: protectedProcedure
+  promote: ownerProcedure
     .input(
       z.object({
         userId: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
-      if (ctx.session.user.role !== "OWNER") return;
-
       const { userId } = input;
 
       return ctx.prisma.user.update({
@@ -29,15 +25,13 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-  demote: protectedProcedure
+  demote: ownerProcedure
     .input(
       z.object({
         userId: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
-      if (ctx.session.user.role !== "OWNER") return;
-
       const { userId } = input;
 
       return ctx.prisma.user.update({

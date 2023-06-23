@@ -113,6 +113,36 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 });
 
 /**
+ * Reusable middleware that for admin/owner role
+ */
+const isAdmin = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || ctx.session.user.role === "USER") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+/**
+ * Reusable middleware that for owner role
+ */
+const isOwner = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || ctx.session.user.role !== "OWNER") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+/**
  * Protected (authed) procedure
  *
  * If you want a query or mutation to ONLY be accessible to logged in users, use
@@ -122,3 +152,25 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+
+/**
+ * Admin (authed) procedure
+ *
+ * Makes query or mutation ONLY accessible to users logged in as ADMIN.
+ * It verifies the session is valid and guarantees ctx.session.user.role
+ * to equal ADMIN or OWNER
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const adminProcedure = t.procedure.use(isAdmin);
+
+/**
+ * Owner (authed) procedure
+ *
+ * Makes query or mutation ONLY accessible to users logged in as OWNER.
+ * It verifies the session is valid and guarantees ctx.session.user.role
+ * to equal OWNER
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const ownerProcedure = t.procedure.use(isOwner);

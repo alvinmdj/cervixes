@@ -3,10 +3,10 @@ import { TRPCError } from "@trpc/server";
 import { addSymptomSchema } from "components/Modal/ModalAddSymptom";
 import { editSymptomSchema } from "components/Modal/ModalEditSymptom";
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { adminProcedure, createTRPCRouter } from "../trpc";
 
 export const symptomRouter = createTRPCRouter({
-  create: protectedProcedure
+  create: adminProcedure
     .input(addSymptomSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -66,7 +66,7 @@ export const symptomRouter = createTRPCRouter({
         throw error;
       }
     }),
-  list: protectedProcedure.query(({ ctx }) => {
+  list: adminProcedure.query(({ ctx }) => {
     const symptoms = ctx.prisma.symptom.findMany({
       include: {
         diseases: true,
@@ -75,7 +75,7 @@ export const symptomRouter = createTRPCRouter({
 
     return symptoms;
   }),
-  update: protectedProcedure
+  update: adminProcedure
     .input(editSymptomSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -155,7 +155,7 @@ export const symptomRouter = createTRPCRouter({
         throw error;
       }
     }),
-  delete: protectedProcedure
+  delete: adminProcedure
     .input(
       z.object({
         symptomId: z.string(),
